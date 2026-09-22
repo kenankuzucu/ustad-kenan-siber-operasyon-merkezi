@@ -1,0 +1,1727 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#010604">
+<meta name="description" content="Üstad Kenan Kuzucu — Etik Hacker & Siber Güvenlik Araştırmacısı. White hat operasyon merkezi: kimlik, uzmanlık, sertifikalar, projeler, etik ve güvenli iletişim.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="tr_TR">
+<meta property="og:title" content="Üstad Kenan // White Hat — Siber Operasyon Merkezi">
+<meta property="og:description" content="Etik Hacker & Siber Güvenlik Araştırmacısı. 443+ sertifika, operasyonlar, savunma eğitimi, canlı TV ve radyo.">
+<meta name="twitter:card" content="summary">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%23010a06'/%3E%3Ccircle cx='32' cy='32' r='24' fill='none' stroke='%2300ff9c' stroke-width='3'/%3E%3Ctext x='32' y='43' font-family='Arial,sans-serif' font-size='30' font-weight='bold' text-anchor='middle' fill='%2300ff9c'%3EK%3C/text%3E%3C/svg%3E">
+<title>ÜSTAD KENAN // WHITE HAT — Siber Operasyon Merkezi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=JetBrains+Mono:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#010604; --panel:rgba(4,14,9,.86);
+    --neon:#00ff9c; --neon2:#8dffd1; --mavi:#00d4ff; --kirmizi:#ff3b5c;
+    --text:#d9ffe9; --muted:#66a88a; --line:rgba(0,255,156,.2);
+    --koyu:#020b07;
+    --baslik:"Chakra Petch",system-ui,"Segoe UI",sans-serif;
+    --mono:"JetBrains Mono",Consolas,"Courier New",monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    background:
+      radial-gradient(900px 600px at 85% -10%, rgba(0,255,156,.07) 0%, transparent 60%),
+      radial-gradient(700px 500px at -5% 30%, rgba(0,212,255,.05) 0%, transparent 55%),
+      linear-gradient(180deg,#020a06 0%, var(--bg) 40%, #010402 100%);
+    color:var(--text); font-family:var(--mono); line-height:1.75;
+    -webkit-font-smoothing:antialiased; overflow-x:hidden; font-size:15px;
+  }
+  ::selection{background:var(--neon);color:#00150b}
+  ::-webkit-scrollbar{width:10px}
+  ::-webkit-scrollbar-track{background:#010604}
+  ::-webkit-scrollbar-thumb{background:linear-gradient(180deg,#00ff9c,#00694a);border-radius:6px;border:2px solid #010604}
+  canvas#uzay{position:fixed;inset:0;z-index:0;pointer-events:none;width:100%;height:100%}
+  .katman{position:relative;z-index:1}
+
+  /* CRT / tarama çizgileri + vinyet */
+  .scanlines{position:fixed;inset:0;z-index:2;pointer-events:none;
+    background:repeating-linear-gradient(0deg,rgba(0,0,0,.16) 0 1px,transparent 1px 3px);opacity:.5}
+  .vinyet{position:fixed;inset:0;z-index:2;pointer-events:none;
+    background:radial-gradient(120% 120% at 50% 40%,transparent 55%,rgba(0,0,0,.55) 100%)}
+  .kaydirma{position:fixed;top:0;left:0;height:3px;width:0;z-index:80;
+    background:linear-gradient(90deg,#00ff9c,#00d4ff);box-shadow:0 0 12px rgba(0,255,156,.8)}
+
+  /* ── BOOT EKRANI ── */
+  #boot{position:fixed;inset:0;z-index:100;background:#000a06;display:flex;align-items:center;justify-content:center;flex-direction:column;transition:opacity .6s;padding:20px}
+  #boot.gizli{opacity:0;pointer-events:none}
+  #bootEkran{width:min(680px,96vw);min-height:230px}
+  #bootEkran .b-satir{white-space:pre-wrap;color:var(--muted);margin-bottom:2px}
+  #bootEkran .b-ok{color:var(--neon)}
+  #bootEkran .b-tamam{color:var(--neon2)}
+  #bootEkran .b-kirmizi{color:var(--kirmizi)}
+  .boot-imza{margin-top:18px;color:var(--neon);letter-spacing:2px;font-size:12px;animation:yanip 1s steps(2) infinite}
+  @keyframes yanip{50%{opacity:.15}}
+
+  header{position:sticky;top:0;z-index:60;background:rgba(2,10,6,.88);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+  .nav{max-width:1180px;margin:0 auto;padding:0 18px;display:flex;align-items:center;justify-content:space-between;height:58px;gap:12px}
+  .brand{font-family:var(--baslik);font-weight:700;letter-spacing:1.5px;font-size:15px;text-decoration:none;color:var(--neon);text-shadow:0 0 14px rgba(0,255,156,.7);white-space:nowrap}
+  .brand small{display:block;font-family:var(--mono);font-size:8.5px;letter-spacing:4px;color:var(--muted);font-weight:400}
+  .links{display:flex;gap:2px;flex-wrap:wrap}
+  .links a{color:var(--muted);text-decoration:none;font-family:var(--baslik);font-size:12px;letter-spacing:1.2px;text-transform:uppercase;font-weight:600;padding:7px 11px;border-radius:6px;transition:all .2s}
+  .links a:hover{color:var(--neon);background:rgba(0,255,156,.08);text-shadow:0 0 10px rgba(0,255,156,.5)}
+  .hud-sag{display:flex;align-items:center;gap:14px;flex:none}
+  .hud-saat{font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums;letter-spacing:1px}
+  .hud-led{display:flex;align-items:center;gap:7px;font-family:var(--baslik);font-size:10px;letter-spacing:2px;color:var(--neon)}
+  .hud-led .nokta{width:8px;height:8px;border-radius:50%;background:var(--neon);box-shadow:0 0 10px var(--neon);animation:yanip 1.6s infinite}
+  .menu{display:none;background:none;border:1px solid var(--neon);color:var(--neon);border-radius:8px;font-size:18px;width:42px;height:42px;cursor:pointer}
+
+  main{max-width:1180px;margin:0 auto;padding:0 18px}
+  section{padding:72px 0;border-top:1px dashed rgba(0,255,156,.15);position:relative}
+  .sec-head{display:flex;align-items:baseline;gap:16px;margin-bottom:36px;flex-wrap:wrap}
+  .sec-no{font-family:var(--baslik);color:var(--mavi);font-size:14px;letter-spacing:2px;font-weight:600}
+  .sec-no::before{content:"["}
+  .sec-no::after{content:"]"}
+  h2{font-family:var(--baslik);font-weight:700;font-size:clamp(24px,3.6vw,36px);letter-spacing:2px;text-transform:uppercase;color:var(--text)}
+  h2 .k{color:var(--neon);text-shadow:0 0 18px rgba(0,255,156,.7)}
+  h2 .imlec{animation:yanip 1.1s steps(2) infinite;color:var(--neon)}
+  h3{font-family:var(--baslik);font-weight:700;font-size:20px;color:var(--neon2);margin-bottom:10px;letter-spacing:1px;text-transform:uppercase}
+  .kart{background:var(--panel);border:1px solid var(--line);border-radius:14px;position:relative;box-shadow:0 18px 44px rgba(0,0,0,.55),inset 0 0 40px rgba(0,255,156,.03);backdrop-filter:blur(6px)}
+  .kart::before{content:"";position:absolute;top:-1px;left:18px;right:18px;height:1px;background:linear-gradient(90deg,transparent,var(--neon),transparent);opacity:.7}
+  .cam{padding:36px 32px}
+
+  /* ── HERO ── */
+  .hero{padding:64px 0 76px;text-align:left;border-top:none;position:relative;perspective:1400px}
+  .hero-ust{display:flex;align-items:flex-start;gap:34px;flex-wrap:wrap}
+  .hero-icerik{flex:1;min-width:300px}
+  .etiket{display:inline-flex;align-items:center;gap:10px;font-family:var(--baslik);font-size:11px;letter-spacing:3px;color:var(--neon);border:1px solid rgba(0,255,156,.4);padding:7px 16px;border-radius:4px;background:rgba(0,255,156,.06);margin-bottom:22px;text-transform:uppercase}
+  .etiket .nokta{width:7px;height:7px;border-radius:50%;background:var(--neon);box-shadow:0 0 8px var(--neon);animation:yanip 1.4s infinite}
+  h1{font-family:var(--baslik);font-weight:700;font-size:clamp(34px,6vw,64px);line-height:1.04;letter-spacing:2px;text-transform:uppercase;color:#eafff4;transform-style:preserve-3d}
+  h1 .alt{display:block;color:var(--neon);text-shadow:0 0 8px rgba(0,255,156,.85),0 0 34px rgba(0,255,156,.4);animation:paril 3.4s ease-in-out infinite}
+  @keyframes paril{0%,100%{opacity:1}50%{opacity:.75}}
+  .role{margin-top:14px;color:var(--muted);font-size:13px;letter-spacing:3px;text-transform:uppercase}
+  .role b{color:var(--mavi);font-weight:400}
+  .terminal{border:1px solid var(--line);border-radius:12px;background:rgba(1,8,5,.9);box-shadow:0 0 30px rgba(0,255,156,.07),inset 0 0 30px rgba(0,0,0,.6);overflow:hidden;margin-top:26px;max-width:640px}
+  .term-bas{display:flex;align-items:center;gap:8px;padding:9px 14px;border-bottom:1px solid var(--line);background:rgba(0,255,156,.05)}
+  .term-bas .tl{width:11px;height:11px;border-radius:50%;background:#ff3b5c}
+  .term-bas .tl:nth-child(2){background:#ffd166}
+  .term-bas .tl:nth-child(3){background:#00ff9c}
+  .term-bas .tad{flex:1;text-align:center;font-size:11px;color:var(--muted);letter-spacing:2px}
+  .term-govde{padding:16px 18px;min-height:150px;font-size:13.5px;line-height:1.9;white-space:pre-wrap;word-break:break-word}
+  .term-govde .t-istek{color:var(--neon)}
+  .term-govde .t-yol{color:var(--mavi)}
+  .term-govde .t-cevap{color:var(--text)}
+  .t-imlec{display:inline-block;width:9px;height:15px;background:var(--neon);vertical-align:-2px;margin-left:2px;animation:yanip 1s steps(2) infinite}
+  .istatistik{display:flex;gap:12px;flex-wrap:wrap;margin-top:26px}
+  .istat{flex:1;min-width:150px;border:1px solid var(--line);border-radius:10px;padding:14px 18px;background:rgba(0,255,156,.04)}
+  .istat b{display:block;font-family:var(--baslik);font-size:clamp(24px,3vw,34px);color:var(--neon);text-shadow:0 0 16px rgba(0,255,156,.6);line-height:1.1}
+  .istat span{font-size:10.5px;letter-spacing:2.5px;text-transform:uppercase;color:var(--muted)}
+  .cta-row{margin-top:26px;display:flex;gap:12px;flex-wrap:wrap}
+  .btn{display:inline-flex;align-items:center;gap:10px;padding:13px 26px;border-radius:8px;font-family:var(--baslik);font-size:12.5px;letter-spacing:2px;text-transform:uppercase;text-decoration:none;font-weight:700;transition:all .22s;transform-style:preserve-3d;cursor:pointer;border:none}
+  .btn:hover{transform:translateY(-2px)}
+  .btn-neon{background:linear-gradient(135deg,#00ff9c,#00b56e);color:#00150b;box-shadow:0 0 24px rgba(0,255,156,.45)}
+  .btn-neon:hover{box-shadow:0 0 40px rgba(0,255,156,.7)}
+  .btn-hat{border:1px solid var(--neon);color:var(--neon);background:rgba(0,255,156,.05)}
+  .btn-hat:hover{background:rgba(0,255,156,.12);box-shadow:0 0 24px rgba(0,255,156,.25)}
+  .hero-sol{flex:none;width:min(300px,90vw);text-align:center}
+  .avatar{position:relative;width:230px;margin:0 auto 18px;transform-style:preserve-3d}
+  .avatar svg{width:100%;height:auto;display:block;filter:drop-shadow(0 0 22px rgba(0,255,156,.4))}
+  .avatar .simge-tur{position:absolute;inset:0;border:1px dashed rgba(0,255,156,.5);border-radius:50%;animation:don 22s linear infinite}
+  @keyframes don{to{transform:rotate(360deg)}}
+  .kimlik-rozet{font-size:10px;letter-spacing:2px;color:var(--muted);text-transform:uppercase}
+  .kimlik-rozet b{color:var(--neon)}
+  @media(max-width:900px){.hero-sol{width:100%}}
+
+  /* ── KAYAN DURUM ŞERİDİ ── */
+  .serit{border:1px solid var(--line);border-radius:10px;background:rgba(2,10,6,.85);overflow:hidden;margin-bottom:6px;position:relative}
+  .serit-ic{display:flex;white-space:nowrap;width:max-content;animation:kaydir 40s linear infinite;padding:11px 0}
+  .serit-ic span{padding:0 26px;color:var(--neon);font-size:12px;letter-spacing:2px}
+  .serit-ic span::before{content:"◆ ";color:var(--mavi)}
+  @keyframes kaydir{to{transform:translateX(-50%)}}
+  @media(prefers-reduced-motion:reduce){.serit-ic{animation:none;flex-wrap:wrap;width:auto}}
+
+  /* ── KİMLİK ── */
+  .grid-2{display:grid;grid-template-columns:1.15fr .85fr;gap:40px;align-items:start}
+  .prose p{color:var(--muted);margin-bottom:16px}
+  .prose p b{color:var(--neon2);font-weight:400}
+  .prose p:first-child::before{content:"▸ ";color:var(--neon)}
+  .dosya{padding:6px 2px}
+  .row{display:grid;grid-template-columns:140px 1fr;padding:12px 18px;border-bottom:1px dashed rgba(0,255,156,.15);transition:background .18s}
+  .row:last-child{border-bottom:none}
+  .row:hover{background:rgba(0,255,156,.05)}
+  dt{font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:var(--mavi);align-self:center;font-family:var(--baslik);font-weight:600}
+  dd{color:var(--text);font-size:14px}
+  dd .yesil{color:var(--neon)}
+  dd .turuncu{color:#ffd166}
+  .tag-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+  .tag{font-size:11px;letter-spacing:1.5px;padding:6px 13px;border-radius:4px;border:1px solid rgba(0,212,255,.35);color:var(--mavi);background:rgba(0,212,255,.05)}
+  .tag.yesil{border-color:rgba(0,255,156,.4);color:var(--neon);background:rgba(0,255,156,.05)}
+
+  /* ── CEPHE ── */
+  .duo{display:grid;grid-template-columns:1fr 1fr;gap:22px;perspective:1400px}
+  .field{padding:34px 30px;position:relative;overflow:hidden;transform-style:preserve-3d}
+  .field .num{font-family:var(--baslik);font-size:64px;font-weight:700;color:rgba(0,255,156,.1);position:absolute;top:6px;right:16px;line-height:1}
+  .field h3{margin-bottom:14px}
+  .field h3::before{content:"> ";color:var(--mavi)}
+  .field p{color:var(--muted);font-size:13.5px;margin-bottom:6px}
+  .field ul{margin:10px 0 0;padding:0;list-style:none}
+  .field li{color:var(--text);font-size:13.5px;padding:6px 0 6px 24px;position:relative}
+  .field li::before{content:"";position:absolute;left:0;top:14px;width:16px;height:1px;background:var(--neon);box-shadow:0 0 8px rgba(0,255,156,.8)}
+  .not{font-size:12px;color:var(--muted);margin-top:12px}
+
+  /* ── SERTİFİKA DEPOSU ── */
+  .depo-onet{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-bottom:30px}
+  .depo-sayi{border:1px solid rgba(0,255,156,.5);border-radius:10px;padding:16px 26px;background:rgba(0,255,156,.06);text-align:center}
+  .depo-sayi b{display:block;font-family:var(--baslik);font-size:44px;color:var(--neon);text-shadow:0 0 20px rgba(0,255,156,.7);line-height:1}
+  .depo-sayi span{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--muted)}
+  .depo-toplam{font-size:13px;color:var(--muted)}
+  .depo-toplam b{color:var(--neon2)}
+  .grup{margin-bottom:30px}
+  .grup-bas{display:flex;align-items:center;gap:14px;margin-bottom:12px;flex-wrap:wrap}
+  .grup-bas h3{margin:0;font-size:17px}
+  .grup-bas h3::before{content:"// ";color:var(--mavi)}
+  .adet{font-size:10.5px;letter-spacing:1.5px;color:var(--neon);border:1px solid rgba(0,255,156,.5);border-radius:30px;padding:2px 12px;font-weight:700}
+  .chips{display:flex;flex-wrap:wrap;gap:9px;perspective:900px}
+  .chip{font-size:12.5px;color:var(--text);background:rgba(2,12,8,.8);border:1px solid rgba(0,255,156,.18);border-radius:8px;padding:8px 15px;transition:all .22s;font-weight:400;transform:translateZ(0)}
+  .chip:hover{transform:translateY(-2px) rotateX(6deg);border-color:var(--neon);box-shadow:0 0 18px rgba(0,255,156,.3);color:var(--neon2)}
+  .chip b{color:var(--neon)}
+  .not-ince{font-size:11.5px;color:var(--muted);margin-top:8px}
+
+  /* ── OPERASYONLAR ── */
+  .ops{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px;perspective:1300px}
+  .op{padding:26px 26px;overflow:hidden;transform-style:preserve-3d;transition:border-color .25s}
+  .op:hover{border-color:rgba(0,255,156,.6)}
+  .op-ust{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;gap:10px}
+  .op-kod{font-family:var(--baslik);color:var(--mavi);font-size:12px;letter-spacing:2px;font-weight:600}
+  .op-kod::before{content:"// ";color:var(--neon)}
+  .durum-led{display:inline-flex;align-items:center;gap:7px;font-size:9.5px;letter-spacing:2px;font-family:var(--baslik);padding:4px 11px;border-radius:30px;font-weight:700;text-transform:uppercase}
+  .durum-led::before{content:"";width:7px;height:7px;border-radius:50%}
+  .d-aktif{color:var(--neon);border:1px solid rgba(0,255,156,.5);background:rgba(0,255,156,.07)}
+  .d-aktif::before{background:var(--neon);box-shadow:0 0 8px var(--neon);animation:yanip 1.6s infinite}
+  .d-hazir{color:#ffd166;border:1px solid rgba(255,209,102,.5);background:rgba(255,209,102,.07)}
+  .d-hazir::before{background:#ffd166;box-shadow:0 0 8px #ffd166;animation:yanip 1.2s infinite}
+  .d-arxiv{color:var(--muted);border:1px solid rgba(102,168,138,.4);background:rgba(102,168,138,.06)}
+  .d-arxiv::before{background:var(--muted)}
+  .op h3{font-size:18px;margin-bottom:8px}
+  .op p{color:var(--muted);font-size:13px;margin-bottom:12px;min-height:54px}
+  .op-tags{display:flex;flex-wrap:wrap;gap:6px}
+  .op-tags span{font-size:10.5px;color:var(--neon2);border:1px dashed rgba(0,255,156,.3);padding:3px 10px;border-radius:4px}
+
+  /* ── ETİK ── */
+  .yemin{border-left:3px solid var(--neon);padding:26px 30px;margin-bottom:28px}
+  .yemin blockquote{font-family:var(--baslik);font-style:italic;font-size:clamp(18px,2.6vw,26px);line-height:1.7;color:var(--neon2)}
+  .yemin .imza{margin-top:14px;font-size:12px;letter-spacing:3px;color:var(--neon);text-transform:uppercase}
+  .kural-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;perspective:1300px}
+  .kural{padding:22px;border-radius:10px;transform-style:preserve-3d;overflow:hidden}
+  .kural .kn{font-family:var(--baslik);font-size:13px;letter-spacing:3px;color:var(--mavi);margin-bottom:10px;font-weight:700}
+  .kural h3{font-size:16px;margin-bottom:8px}
+  .kural h3::before{content:"[!] ";color:var(--kirmizi)}
+  .kural p{color:var(--muted);font-size:12.5px}
+  .deneme{margin-top:30px}
+  .deneme p{color:var(--muted);margin-bottom:16px}
+  .deneme p b{color:var(--neon2);font-weight:400}
+
+  /* ── İLETİŞİM ── */
+  .hat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px;perspective:1300px}
+  .ccard{display:block;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:22px;text-decoration:none;color:var(--text);transition:all .25s;transform-style:preserve-3d}
+  .ccard:hover{border-color:var(--neon);box-shadow:0 0 28px rgba(0,255,156,.18),0 20px 40px rgba(0,0,0,.5)}
+  .ccard .ic{width:44px;height:44px;border-radius:8px;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;margin-bottom:12px;background:rgba(0,255,156,.05);transition:all .25s}
+  .ccard:hover .ic{transform:translateY(-3px) translateZ(20px);border-color:var(--neon)}
+  .ccard .ic img{width:20px;height:20px}
+  .ccard .ic svg{width:20px;height:20px;display:block}
+  .ccard .k{font-family:var(--baslik);font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--mavi);font-weight:600;margin-bottom:5px}
+  .ccard .v{font-size:14px;font-weight:700;color:var(--text);word-break:break-all}
+  .ccard .s{font-size:11.5px;color:var(--muted);margin-top:3px}
+  .form-kutu{margin-top:26px;padding:28px}
+  .flabel{display:block;font-family:var(--baslik);font-size:10.5px;letter-spacing:2.5px;text-transform:uppercase;color:var(--mavi);font-weight:600;margin:14px 0 6px}
+  .form-kutu input,.form-kutu textarea{width:100%;background:#020b07;border:1px solid rgba(0,255,156,.25);border-radius:8px;color:var(--text);padding:12px 14px;font:inherit;font-size:14px;transition:border-color .2s,box-shadow .2s}
+  .form-kutu input:focus,.form-kutu textarea:focus{outline:none;border-color:var(--neon);box-shadow:0 0 0 3px rgba(0,255,156,.12),0 0 20px rgba(0,255,156,.15)}
+  .guvenli{display:inline-flex;align-items:center;gap:9px;margin-top:14px;font-size:11px;color:var(--muted)}
+  .guvenli .asama{color:var(--neon)}
+
+  footer{border-top:1px solid rgba(0,255,156,.2);padding:32px 18px;text-align:center;color:var(--muted);font-size:12px;letter-spacing:1px;position:relative}
+  footer .gold{color:var(--neon);font-family:var(--baslik);font-weight:700;letter-spacing:2px;text-shadow:0 0 12px rgba(0,255,156,.5)}
+  footer .uyari{display:block;margin-top:10px;font-size:10.5px;color:#4d7d68}
+
+  /* ── SAVUNMA EĞİTİMİ: test + şifre ölçer ── */
+  .soruNo{font-family:var(--baslik);color:var(--neon);font-size:11px;letter-spacing:2.5px;margin:4px 0 10px;font-weight:700}
+  .sahne{background:rgba(1,8,5,.55);border:1px solid var(--line);border-radius:12px;padding:15px 17px;font-size:13.5px;color:var(--text);margin-bottom:12px;line-height:1.7}
+  .sahne .bas{font-family:var(--baslik);font-size:10px;letter-spacing:2px;color:var(--mavi);margin-bottom:8px;text-transform:uppercase;font-weight:700}
+  .sahne .kaynak{color:var(--muted);font-size:11px}
+  .secenek{display:block;width:100%;text-align:left;background:rgba(2,12,8,.85);border:1px solid var(--line);color:var(--text);border-radius:9px;padding:11px 15px;margin-bottom:8px;font:inherit;font-size:13px;cursor:pointer;transition:all .18s;line-height:1.55}
+  .secenek:hover:not(:disabled){border-color:var(--neon);color:var(--neon2);box-shadow:0 0 14px rgba(0,255,156,.15)}
+  .secenek:disabled{cursor:default;opacity:.9}
+  .secenek.dogru{border-color:var(--neon);background:rgba(0,255,156,.13);color:var(--neon2);box-shadow:0 0 16px rgba(0,255,156,.25)}
+  .secenek.yanlis{border-color:var(--kirmizi);background:rgba(255,59,92,.12);color:#ffb9c6}
+  .aciklama{font-size:12.5px;color:var(--text);background:rgba(0,212,255,.07);border-left:3px solid var(--mavi);padding:11px 15px;border-radius:0 9px 9px 0;margin:2px 0 18px;display:none;line-height:1.7}
+  .aciklama b{color:var(--neon2);font-weight:400}
+  .skor-kutu{display:none;border:1px dashed rgba(0,255,156,.55);border-radius:12px;padding:18px;text-align:center;margin-top:4px;background:rgba(0,255,156,.04)}
+  .skor-kutu b{font-family:var(--baslik);font-size:22px;color:var(--neon);display:block;text-shadow:0 0 16px rgba(0,255,156,.6);letter-spacing:1px}
+  .skor-kutu span{color:var(--text);font-size:13.5px;display:block;margin-top:6px}
+  .skor-kutu .tekrar{background:none;border:1px solid var(--neon);color:var(--neon);border-radius:8px;font-size:12px;padding:8px 18px;margin-top:12px;cursor:pointer;font-family:var(--baslik);letter-spacing:1.5px}
+  .skor-kutu .tekrar:hover{background:rgba(0,255,156,.12)}
+  .guc-bar{height:11px;border-radius:8px;background:rgba(0,255,156,.07);border:1px solid var(--line);overflow:hidden}
+  .guc-dolgu{height:100%;width:0%;border-radius:8px;background:linear-gradient(90deg,#ff3b5c,#ffd166,#00ff9c);transition:width .35s ease,box-shadow .35s;box-shadow:0 0 14px rgba(0,255,156,.45)}
+  .guc-satir{display:flex;justify-content:space-between;align-items:center;font-family:var(--baslik);font-size:13px;letter-spacing:1.5px;margin-top:11px}
+  .guc-etiket{color:var(--muted);font-weight:600}
+  .guc-puan{color:var(--muted);font-variant-numeric:tabular-nums}
+  .guc-oneri{font-size:12.5px;color:#ffd166;margin-top:9px;min-height:20px;line-height:1.7}
+
+  /* ── CANLI YAYIN ── */
+  .yayin-kutu{padding:0;overflow:hidden}
+  .yayin-bas{display:flex;align-items:center;gap:12px;padding:10px 16px;background:rgba(0,255,156,.06);border-bottom:1px solid var(--line);flex-wrap:wrap}
+  .yayin-baslik{font-family:var(--baslik);font-size:13px;letter-spacing:2px;color:var(--neon);font-weight:700;text-shadow:0 0 12px rgba(0,255,156,.5)}
+  .yayin-ad{flex:1;text-align:center;color:var(--text);font-size:12.5px;letter-spacing:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:80px}
+  .yayin-dgm{background:none;border:1px solid rgba(0,255,156,.45);color:var(--neon);border-radius:8px;font-size:11.5px;padding:5px 13px;cursor:pointer;font-family:var(--baslik);letter-spacing:1px;transition:all .18s}
+  .yayin-dgm:hover{background:rgba(0,255,156,.12)}
+  #yayinVideo{width:100%;display:block;aspect-ratio:16/9;background:#000}
+  .yayin-kanallar{display:flex;gap:7px;flex-wrap:wrap;padding:12px 16px}
+  .yayin-kan{font-size:12px;padding:6px 13px;border-radius:6px;border:1px solid var(--line);background:rgba(2,12,8,.85);color:var(--text);cursor:pointer;transition:all .18s}
+  .yayin-kan:hover{border-color:var(--neon);color:var(--neon2)}
+  .yayin-kan.haber{color:#ffd166}
+  .yayin-kan.on{background:linear-gradient(135deg,#00ff9c,#00b56e);color:#00150b;font-weight:700;border-color:transparent;box-shadow:0 0 16px rgba(0,255,156,.4)}
+  .yayin-kan.on.haber{color:#00150b}
+  .yayin-msg{font-size:11.5px;color:var(--muted);padding:0 16px 14px}
+  .yayin-kutu:fullscreen{background:#000;width:100vw;height:100vh;border:none;border-radius:0}
+  .yayin-kutu:fullscreen #yayinVideo{width:100vw;height:calc(100vh - 104px);aspect-ratio:auto;object-fit:contain}
+  @media(max-width:560px){.yayin-bas{padding:8px 12px}.yayin-kanallar{padding:9px 12px}}
+
+  /* ── RADYO ── */
+  .radyo-bosluk{padding:0;overflow:hidden}
+  #radyoKontrol{width:100%;margin-top:4px;border-radius:8px;filter:invert(.92) hue-rotate(180deg);accent-color:#00ff9c}
+  @media(max-width:560px){.radyo-bosluk .yayin-kanallar{padding:9px 12px}}
+
+
+  /* ── OPERASYON TAKVİMİ: geri sayım + zaman çizelgesi ── */
+  .op-takvim{border:1px solid var(--line);padding:6px 4px}
+  .takvim-ust{text-align:center;padding:8px 10px 4px}
+  .tkv-etiket{font-family:var(--baslik);font-size:11px;letter-spacing:4px;color:var(--mavi);font-weight:700;text-transform:uppercase}
+  .tkv-ad{margin-top:10px;font-family:var(--baslik);font-size:clamp(22px,3.4vw,34px);font-weight:700;letter-spacing:2px;color:var(--neon);text-shadow:0 0 22px var(--neon)}
+  .tkv-detay{color:var(--muted);font-size:13px;margin-top:8px}
+  .sayac{display:flex;gap:10px;justify-content:center;align-items:center;flex-wrap:wrap;margin:24px 0 8px}
+  .sayac-kutu{min-width:88px;padding:14px 12px;border:1px solid var(--line);background:var(--koyu);text-align:center}
+  .sayac-kutu b{display:block;font-family:var(--baslik);font-size:clamp(30px,4.6vw,44px);font-weight:700;color:var(--neon);font-variant-numeric:tabular-nums;line-height:1;text-shadow:0 0 18px var(--neon)}
+  .sayac-kutu span{font-size:9.5px;letter-spacing:2.5px;color:var(--muted);text-transform:uppercase;display:block;margin-top:6px}
+  .sayac-nokta{font-family:var(--baslik);font-size:32px;color:var(--neon);animation:yanip 1s steps(2) infinite;font-weight:700}
+  .tkv-durum{margin-top:14px;font-family:var(--baslik);font-size:12px;letter-spacing:3px;color:var(--neon2);text-transform:uppercase;font-weight:600}
+  .zaman{position:relative;margin:38px auto 6px;padding:0 6px 0 34px;max-width:900px}
+  .zaman::before{content:"";position:absolute;left:9px;top:6px;bottom:6px;width:2px;background:linear-gradient(180deg,var(--neon),var(--line),transparent)}
+  .zkonum{position:relative;padding:0 0 30px 14px}
+  .zkonum::before{content:"";position:absolute;left:-31px;top:5px;width:13px;height:13px;border-radius:50%;background:var(--neon);box-shadow:0 0 14px var(--neon)}
+  .zkonum.yaklasan::before{background:var(--kirmizi);box-shadow:0 0 16px var(--kirmizi);animation:yanip 1.3s infinite}
+  .zkonum.son::before{background:var(--mavi);box-shadow:0 0 14px var(--mavi)}
+  .zkonum .ztarih{font-family:var(--baslik);font-size:12.5px;font-weight:700;letter-spacing:2.5px;color:var(--mavi);text-transform:uppercase}
+  .zkonum h4{margin:4px 0 2px;font-family:var(--baslik);font-size:17px;letter-spacing:1px;color:var(--neon2)}
+  .zkonum p{color:var(--muted);font-size:13px;margin:0;line-height:1.65}
+  .zkonum .durum-led{margin-top:10px}
+
+  /* ── AKTİF KONSOL (canlı günlük + komut) ── */
+  .konsol{position:fixed;right:14px;bottom:14px;width:min(360px,94vw);z-index:70;border:1px solid rgba(0,255,156,.4);border-radius:12px;background:rgba(1,8,5,.95);box-shadow:0 0 30px rgba(0,255,156,.12),0 22px 50px rgba(0,0,0,.7);overflow:hidden;backdrop-filter:blur(8px)}
+  .k-bas{display:flex;align-items:center;gap:9px;padding:8px 12px;background:rgba(0,255,156,.06);border-bottom:1px solid var(--line);cursor:pointer}
+  .k-bas .nokta{width:8px;height:8px;border-radius:50%;background:var(--neon);box-shadow:0 0 8px var(--neon);animation:yanip 1.4s infinite;flex:none}
+  .k-bas .k-ad{font-family:var(--baslik);font-size:11px;letter-spacing:1.5px;color:var(--neon);font-weight:700;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .k-bas .k-dgm{background:none;border:1px solid rgba(0,255,156,.4);color:var(--neon);border-radius:6px;font-size:13px;line-height:1;padding:2px 8px;cursor:pointer}
+  .k-bas .k-dgm:hover{background:rgba(0,255,156,.15)}
+  .k-liste{height:158px;overflow-y:auto;padding:8px 12px;font-size:11px;line-height:1.75;scrollbar-width:thin}
+  .k-liste::-webkit-scrollbar{width:5px}
+  .k-liste::-webkit-scrollbar-thumb{background:rgba(0,255,156,.5);border-radius:4px}
+  .k-satir{white-space:pre-wrap;word-break:break-word}
+  .k-gri{color:var(--muted)}.k-yesil{color:var(--neon)}.k-mavi{color:var(--mavi)}.k-sari{color:#ffd166}.k-kirmizi{color:var(--kirmizi)}.k-beyaz{color:var(--text)}
+  .k-giris{display:flex;align-items:center;gap:6px;padding:7px 12px;border-top:1px solid var(--line);background:rgba(0,0,0,.35)}
+  .k-prompt{color:var(--neon);font-size:11.5px;white-space:nowrap}
+  .k-giris input{flex:1;background:none;border:none;outline:none;color:var(--text);font:inherit;font-size:12px;min-width:0}
+  .konsol.kucuk .k-liste,.konsol.kucuk .k-giris{display:none}
+  .konsol.kucuk .k-bas{border-bottom:none}
+  @media(max-width:560px){.konsol{right:8px;bottom:8px;width:min(320px,96vw)}.k-liste{height:120px}}
+
+  /* ── GİRİŞ (reveal) ── */
+  .rv{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .8s ease}
+  .rv.in{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}html{scroll-behavior:auto}.rv{opacity:1;transform:none}#boot{display:none}}
+
+  @media(max-width:880px){
+    .links{position:absolute;top:58px;left:10px;right:10px;background:rgba(2,10,6,.98);flex-direction:column;gap:0;padding:12px 14px 16px;border:1px solid var(--line);border-radius:12px;display:none;box-shadow:0 20px 40px rgba(0,0,0,.6)}
+    .links.open{display:flex}
+    .links a{padding:10px 8px}
+    .menu{display:block}
+    .grid-2{grid-template-columns:1fr;gap:26px}
+    .duo{grid-template-columns:1fr}
+    .hud-saat{display:none}
+    .cam{padding:26px 20px}
+  }
+
+  /* ── GÖRSEL ŞÖLEN: yağmur + iz + patlama ── */
+  #fxCanvas{position:fixed;inset:0;z-index:0;pointer-events:none;width:100%;height:100%}
+  #fxDugme{position:fixed;left:50%;bottom:16px;transform:translateX(-50%);z-index:71;
+    font-family:var(--baslik);font-size:11px;letter-spacing:2px;font-weight:700;
+    color:var(--fx1);background:color-mix(in srgb,var(--koyu,#020b07) 82%,transparent);
+    border:1px solid var(--fx1);border-radius:30px;padding:9px 20px;cursor:pointer;
+    box-shadow:0 0 18px color-mix(in srgb,var(--fx1) 35%,transparent);backdrop-filter:blur(8px);transition:all .25s}
+  #fxDugme:hover{box-shadow:0 0 26px color-mix(in srgb,var(--fx1) 60%,transparent);transform:translateX(-50%) translateY(-2px)}
+  #fxDugme.kapali{opacity:.45;border-color:var(--muted)}
+  #fxDugme.kapali:hover{opacity:.8}
+  @media(max-width:560px){#fxDugme{bottom:76px;font-size:9.5px;padding:7px 14px;letter-spacing:1px}}
+
+  :root{--fx1:#00ff9c;--fx2:#d9ffe9;--fx3:#00b56e;--fx-acik:0;}
+</style>
+</head>
+<body>
+<canvas id="uzay" aria-hidden="true"></canvas>
+<div class="scanlines" aria-hidden="true"></div>
+<div class="vinyet" aria-hidden="true"></div>
+<canvas id="fxCanvas" aria-hidden="true"></canvas>
+<button id="fxDugme" type="button" title="Efektler: arka plan yağmuru, fare izi, tıklama patlaması ve sesler">✦ FX: AÇIK</button>
+
+<div class="kaydirma" id="kaydirma" aria-hidden="true"></div>
+
+<!-- BOOT EKRANI -->
+<div id="boot" role="status" aria-label="Sistem başlatılıyor">
+  <div id="bootEkran"></div>
+  <div class="boot-imza">█ ERİŞİM NOKTASI HAZIR — BEKLENİYOR...</div>
+</div>
+
+<div class="katman">
+<header>
+  <div class="nav">
+    <a class="brand" href="#top">ÜSTAD_KENAN<span style="color:var(--mavi)">@</span>WHITE-HAT<small>// SİBER GÜVENLİK MERKEZİ</small></a>
+    <button class="menu" aria-label="Menü" aria-expanded="false">☰</button>
+    <nav class="links" id="links">
+      <a href="#kimlik">Kimlik</a>
+      <a href="#cephe">Cepheler</a>
+      <a href="#depo">Depo</a>
+      <a href="#operasyon">Operasyon</a>
+      <a href="#egitim">Eğitim</a>
+      <a href="#etik">Etik</a>
+      <a href="#takvim">Takvim</a>
+      <a href="#hat">İletişim</a>
+    </nav>
+    <div class="hud-sag">
+      <span class="hud-saat" id="hudSaat">--:--:--</span>
+      <span class="hud-led"><span class="nokta"></span>REC</span>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-ust">
+      <div class="hero-icerik">
+        <span class="etiket"><span class="nokta"></span> Operasyon: WHITE HAT — Yetkili Erişim</span>
+        <h1>ÜSTAD KENAN<br><span class="alt">KUZUCU</span></h1>
+        <p class="role">ETİK HACKER <b>//</b> SİBER GÜVENLİK &amp; YAZILIM ARAŞTIRMACISI <b>//</b> USTA ÖĞRETİCİ</p>
+        <div class="terminal">
+          <div class="term-bas"><span class="tl"></span><span class="tl"></span><span class="tl"></span><span class="tad">root@ustad-kenan — /home/kenan</span></div>
+          <div class="term-govde" id="termGovde"></div>
+        </div>
+        <div class="istatistik">
+          <div class="istat"><b id="sayiBelge">0</b><span>Belge &amp; Sertifika</span></div>
+          <div class="istat"><b id="sayiKurum">0</b><span>Eğitim Kurumu</span></div>
+          <div class="istat"><b id="sayiArac">0</b><span>Cephe / Uzmanlık Alanı</span></div>
+        </div>
+        <div class="cta-row">
+          <a class="btn btn-neon" href="#operasyon">◉ Operasyonları Gör</a>
+          <a class="btn btn-hat" href="#hat">✉ Güvenli Hat</a>
+        </div>
+      </div>
+      <div class="hero-sol">
+        <div class="avatar">
+          <svg viewBox="0 0 240 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Kenan Kuzucu">
+            <defs>
+              <clipPath id="avKlip"><circle cx="120" cy="120" r="95"/></clipPath>
+            </defs>
+            <circle cx="120" cy="120" r="112" fill="none" stroke="#00ff9c" stroke-width="2" opacity=".35"/>
+            <circle cx="120" cy="120" r="100" fill="none" stroke="#00ff9c" stroke-width="1.5"/>
+            <image href="kenan-avatar.jpg" x="25" y="25" width="190" height="190" preserveAspectRatio="xMidYMid slice" clip-path="url(#avKlip)"/>
+            <path d="M120 32 L208 120 L120 208 L32 120 Z" fill="none" stroke="#00ff9c" stroke-width="1" opacity=".5"/>
+            <path d="M120 32 L120 208 M32 120 L208 120" stroke="#00ff9c" stroke-width=".5" opacity=".18"/>
+            <circle cx="120" cy="46" r="4" fill="#00ff9c"/><circle cx="120" cy="194" r="4" fill="#00ff9c"/>
+            <circle cx="46" cy="120" r="4" fill="#00ff9c"/><circle cx="194" cy="120" r="4" fill="#00ff9c"/>
+          </svg>
+          <div class="simge-tur" aria-hidden="true"></div>
+        </div>
+        <div class="kimlik-rozet">KOD: <b>ÜSTAD_KENAN</b> — <b>WHITE HAT</b><br>GAZİANTEP // TR — <b>AKTİF</b></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- KAYAN DURUM -->
+  <div class="serit" aria-hidden="true">
+    <div class="serit-ic" id="seritIc">
+      <span>ALL SYSTEMS OPERATIONAL</span><span>GÜVENLİK DUVARI: AKTİF</span><span>YETKİ: WHITE HAT</span><span>İZİNSİZ GİRİŞ TESPİT EDİLMEDİ</span><span>MOD: SAVUNMA &amp; EĞİTİM</span><span>BAĞLANTI: GAZİANTEP // TR</span>
+    </div>
+  </div>
+
+  <!-- KİMLİK -->
+  <section id="kimlik" class="rv">
+    <div class="sec-head"><span class="sec-no">DOSYA-01</span><h2>Kimlik <span class="k">Kayıtları</span><span class="imlec">_</span></h2></div>
+    <div class="grid-2">
+      <div class="prose">
+        <p><b>Kenan Kuzucu</b> — ya da sahada bilinen koduyla <b>Üstad Kenan</b> — 1981 yılında Ankara / Çankaya'da doğdu. Çocukluğu ve gençliği Adana / Ceyhan'da geçti; aslen Şanlıurfa / Halfeti kökenlidir. Bugün Gaziantep / Şehitkamil'de yaşamakta ve çalışmaktadır.</p>
+        <p>Hayatında iki güçlü cepheyi ustalıkla birleştirir: <b>estetik</b> ve <b>teknoloji</b>. Bir yandan saç tasarımında usta öğretici kimliğiyle insanların özgüvenine dokunurken; diğer yandan Python, Kali Linux ve GitHub ekosisteminde kendini sürekli geliştiren, bilgiyi yalnızca savunma ve eğitim amacıyla kullanan bir siber güvenlik araştırmacısıdır.</p>
+        <p>Felsefesi nettir: <b>bilgi güçtür ve güç, doğru ellere emanet edilmelidir</b>. Bu yüzden öğrendiği her tekniği önce etik süzgeçten geçirir; izinsiz hiçbir sisteme girmez, bulduğu açığı raporlar, bilgiyi insanlığın iyiliği için kullanır. Berber koltuğunda başlayan sohbetler ile terminalde yazılan kodlar onun için aynı şeydir: insana dokunmak.</p>
+      </div>
+      <div class="kart dosya cam">
+        <div class="row"><dt>Kod Adı</dt><dd>Üstad Kenan</dd></div>
+        <div class="row"><dt>Doğum</dt><dd>1981 — Ankara / Çankaya</dd></div>
+        <div class="row"><dt>Bölge</dt><dd>Adana / Ceyhan (büyüme)</dd></div>
+        <div class="row"><dt>Köken</dt><dd>Şanlıurfa / Halfeti</dd></div>
+        <div class="row"><dt>Üs</dt><dd>Gaziantep / Şehitkamil</dd></div>
+        <div class="row"><dt>Rol</dt><dd><span class="yesil">Etik Hacker / White Hat</span></dd></div>
+        <div class="row"><dt>Uzmanlık</dt><dd>Siber Güvenlik · Yazılım · Donanım</dd></div>
+        <div class="row"><dt>Durum</dt><dd><span class="yesil">AKTİF</span> <span class="turuncu">— SÜREKLİ ÖĞRENME MODU</span></dd></div>
+        <div class="tag-row">
+          <span class="tag">Kali Linux</span><span class="tag">Python</span><span class="tag yesil">GitHub</span><span class="tag">Donanım</span><span class="tag yesil">OSINT</span><span class="tag">Ağ Analizi</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CEPHE -->
+  <section id="cephe" class="rv">
+    <div class="sec-head"><span class="sec-no">DOSYA-02</span><h2>Cephe <span class="k">Haritası</span><span class="imlec">_</span></h2></div>
+    <div class="duo">
+      <div class="field kart t3d">
+        <span class="num">01</span>
+        <h3>Dijital Cephe</h3>
+        <p>Siber güvenlikte savunma önce gelir: önce öğren, sonra koru, en sonunda izinli test et.</p>
+        <ul>
+          <li>Kali Linux — etik hackleme &amp; güvenlik testleri</li>
+          <li>Python — otomasyon, script &amp; analiz araçları</li>
+          <li>GitHub — yazılım geliştirme &amp; açık kaynak</li>
+          <li>Bilgisayar donanım teknisyenliği</li>
+          <li>OSINT — açık kaynak istihbarat teknikleri</li>
+          <li>NetHunter / mobil güvenlik çalışmaları</li>
+        </ul>
+      </div>
+      <div class="field kart t3d">
+        <span class="num">02</span>
+        <h3>Estetik Cephe</h3>
+        <p>Hacker sabrı ve estetik göz aynı insanda: iki dünya birbirini besler.</p>
+        <ul>
+          <li>Usta Öğretici Belgesi — Kuaförlük &amp; Saç Tasarımı</li>
+          <li>Saç tasarımı, bakım ve stil yönetimi</li>
+          <li>Müşteri odaklı danışmanlık &amp; görünüm tasarımı</li>
+        </ul>
+        <p class="not">Not: Bir sistemin zayıf noktasını gören göz, bir yüzün hakkını veren gözle aynıdır — detay, detay, detay.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERTİFİKA DEPOSU -->
+  <section id="depo" class="rv">
+    <div class="sec-head"><span class="sec-no">DOSYA-03</span><h2>Sertifika <span class="k">Deposu</span><span class="imlec">_</span></h2></div>
+    <div class="depo-onet">
+      <div class="depo-sayi"><b id="toplamBelge">0</b><span>Toplam Kayıt</span></div>
+      <p class="depo-toplam">Millî Eğitim onaylı belgeler + uluslararası üniversite sertifikaları + akademi rozetleri.<br>Temel alanlar: <b>siber güvenlik, programlama, ağ teknolojileri, yapay zekâ ve kişisel gelişim</b>.</p>
+    </div>
+    <div class="grup">
+      <div class="grup-bas"><h3>Millî Eğitim Bakanlığı</h3><span class="adet">42 BELGE</span></div>
+      <p class="not-ince">T.C. Millî Eğitim Bakanlığı onaylı 42 başarı belgesi — usta öğreticilik, mesleki ve teknik eğitim.</p>
+    </div>
+    <div class="grup">
+      <div class="grup-bas"><h3>Uluslararası Üniversiteler</h3><span class="adet">35 SERTİFİKA</span></div>
+      <div class="chips" id="univChips"></div>
+    </div>
+    <div class="grup">
+      <div class="grup-bas"><h3>Akademiler &amp; Kurumlar</h3><span class="adet">366 SERTİFİKA / ROZET</span></div>
+      <div class="chips" id="akademiChips"></div>
+    </div>
+    <div class="grup">
+      <div class="grup-bas"><h3>Mesleki Uzmanlık</h3></div>
+      <div class="chips">
+        <span class="chip">Usta Öğretici Belgesi — Kuaförlük &amp; Saç Tasarımı</span>
+        <span class="chip">Bilgisayar Donanım Teknisyeni Sertifikası</span>
+        <span class="chip">Python Programlama Temelleri Sertifikası</span>
+        <span class="chip">Siber Güvenlik &amp; Etik Hackerlık Eğitimi</span>
+        <span class="chip">Osmanlı Türkçesi &amp; Arapça Dil Eğitimi</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- OPERASYONLAR -->
+  <section id="operasyon" class="rv">
+    <div class="sec-head"><span class="sec-no">DOSYA-04</span><h2>Operasyon <span class="k">Günlüğü</span><span class="imlec">_</span></h2></div>
+    <div class="ops">
+      <div class="op kart t3d">
+        <div class="op-ust"><span class="op-kod">JARVIS-NG</span><span class="durum-led d-aktif">Aktif</span></div>
+        <h3>Yapay Zekâ Asistanı</h3>
+        <p>Sesle uyanan, konuşan, 41 araca komuta eden kişisel asistan: hafıza, animasyonlu panel ve 'hey JARVIS' tetikleyicisi.</p>
+        <div class="op-tags"><span>Python</span><span>Gemini API</span><span>Ses Tanıma</span><span>Tkinter</span></div>
+      </div>
+      <div class="op kart t3d">
+        <div class="op-ust"><span class="op-kod">NET-HUNTER</span><span class="durum-led d-hazir">Hazırlık</span></div>
+        <h3>Mobil Pentest İstasyonu</h3>
+        <p>Redmi Note 12 üzerinde Kali NetHunter LITE kurulumu: kilit açma → Magisk root → NetHunter. Eğitim ve kendi cihaz testleri için.</p>
+        <div class="op-tags"><span>Kali Linux</span><span>NetHunter</span><span>Magisk</span><span>15 Eylül Planı</span></div>
+      </div>
+      <div class="op kart t3d">
+        <div class="op-ust"><span class="op-kod">CYBER-3D</span><span class="durum-led d-aktif">Yayında</span></div>
+        <h3>Web Kompleksi — 3D Siteler</h3>
+        <p>Three.js ile yazılmış, her biri ayrı temada (koyu altın, siyah premium, pastel) gerçek 3D kişisel ve işletme siteleri.</p>
+        <div class="op-tags"><span>Three.js</span><span>HTML/CSS/JS</span><span>Canlı TV</span><span>Netlify</span></div>
+      </div>
+      <div class="op kart t3d">
+        <div class="op-ust"><span class="op-kod">OSINT-LAB</span><span class="durum-led d-aktif">Devam</span></div>
+        <h3>Açık Kaynak İstihbarat</h3>
+        <p>WhatsApp numarası doğrulama, link analizi ve kimlik avı farkındalığı üzerine pratik çalışmalar — hepsi savunma amaçlı.</p>
+        <div class="op-tags"><span>OSINT</span><span>Analiz</span><span>Farkındalık</span></div>
+      </div>
+      <div class="op kart t3d">
+        <div class="op-ust"><span class="op-kod">THREAT-RE</span><span class="durum-led d-arxiv">Arşiv</span></div>
+        <h3>Tehdit Araştırması</h3>
+        <p>Yapay zekâ sistemlerine yönelik kötüye kullanım teknikleri (jailbreak/prompt injection) üzerine dokümante edilmiş incelemeler.</p>
+        <div class="op-tags"><span>Araştırma</span><span>Rapor</span><span>Farkındalık</span></div>
+      </div>
+      <div class="op kart t3d">
+        <div class="op-ust"><span class="op-kod">KALEM-OP</span><span class="durum-led d-aktif">Aktif</span></div>
+        <h3>Yazar Cephesi</h3>
+        <p>5 kitap, 12 film senaryosu ve yüzlerce şiir: teknoloji kadar kelam da silahtır — vicdanı hedef alan satırlar.</p>
+        <div class="op-tags"><span>Kitap</span><span>Senaryo</span><span>Şiir</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EĞİTİM -->
+  <section id="egitim" class="rv">
+    <div class="sec-head"><span class="sec-no">DOSYA-05</span><h2>Savunma <span class="k">Eğitimi</span><span class="imlec">_</span></h2></div>
+
+    <div class="kart cam" style="margin-bottom:22px">
+      <h3 style="font-size:17px">▸ Phishing Avcısı — Kendini Test Et</h3>
+      <p style="color:var(--muted);font-size:13px">4 gerçekçi senaryo: hangisi tuzak, hangisi güvenli davranış? Seçimini yap, açıklamayı oku ve skorunu gör. Test tamamen sayfada çalışır — hiçbir şey gönderilmez.</p>
+      <div id="quizKok" style="margin-top:18px"></div>
+    </div>
+
+    <div class="kart cam">
+      <h3 style="font-size:17px">▸ Şifre Gücü Ölçer</h3>
+      <p style="color:var(--muted);font-size:13px">Şifreni yaz, zırhını ölç. Hesaplama tamamen tarayıcında yapılır — <b style="color:var(--neon)">hiçbir yere gönderilmez, hiçbir yere kaydedilmez.</b></p>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:16px">
+        <input id="sifreGiris" type="password" placeholder="Şifreni yaz (test amaçlı)..." style="flex:1;min-width:230px" autocomplete="new-password" aria-label="Şifre gücü testi için şifre girişi">
+        <button type="button" id="sifreGoster" style="background:none;border:1px solid rgba(0,255,156,.4);color:var(--neon);border-radius:8px;font-size:12px;padding:11px 16px;cursor:pointer;font-family:var(--baslik);letter-spacing:1px">GÖSTER</button>
+      </div>
+      <div class="guc-bar" style="margin-top:16px"><div class="guc-dolgu" id="gucDolgu"></div></div>
+      <div class="guc-satir">
+        <span class="guc-etiket" id="gucEtiket">Şifre bekleniyor...</span>
+        <span class="guc-puan" id="gucPuan">0/100</span>
+      </div>
+      <div class="guc-oneri" id="gucOneri"></div>
+      <p style="color:#4d7d68;font-size:11px;margin-top:10px">İpucu: gerçek şifreni yazma — benzer bir deneme şifresiyle dene. Güçlü şifre: 12+ karakter, büyük-küçük harf, rakam ve sembol.</p>
+    </div>
+  </section>
+
+  <!-- ETİK -->
+  <section id="etik" class="rv">
+    <div class="sec-head"><span class="sec-no">DOSYA-06</span><h2>Etik <span class="k">&amp; Felsefe</span><span class="imlec">_</span></h2></div>
+    <div class="kart yemin">
+      <blockquote>“Bilgi güçtür, sanat yaşamdır ve dostluk en büyük zenginliktir.”</blockquote>
+      <div class="imza">— Üstad Kenan Kuzucu</div>
+    </div>
+    <div class="kural-grid">
+      <div class="kural kart t3d"><div class="kn">KURAL-01</div><h3>İzinsiz Girilmez</h3><p>Yalnızca sahibinin izniyle test yapılır. Beyaz şapka, kapıyı zorlamaz; kapıyı açık bırakanı uyarır.</p></div>
+      <div class="kural kart t3d"><div class="kn">KURAL-02</div><h3>Zarar Verme</h3><p>Öğrenirken ve test ederken sistemlere, verilere ve insanlara zarar verilmez. Bilgi yapıcıdır.</p></div>
+      <div class="kural kart t3d"><div class="kn">KURAL-03</div><h3>Bulduğunu Raporla</h3><p>Açık keşfedilirse sorumlu şekilde bildirilir. Sessiz kalmak, suç ortağı olmaktır.</p></div>
+      <div class="kural kart t3d"><div class="kn">KURAL-04</div><h3>İyilik İçin Kullan</h3><p>Öğrenilen her teknik; aileye, işletmelere ve topluma siber zorbalığa karşı kalkan olmak içindir.</p></div>
+    </div>
+    <div class="kart cam deneme">
+      <p>Bir toplumun gerçek çöküşü, ne ekonomik krizlerle başlar ne de savaşların ilk kurşunuyla… Asıl çöküş; insanların doğruyu bildiği hâlde sustuğu, haksızlığı gördüğü hâlde görmezden geldiği ve vicdanını çıkarlarına teslim ettiği gün başlar. Çünkü vicdan sustuğunda adalet güçsüzleşir; adalet zayıfladığında güven yıkılır; güven yıkıldığında insanlar birbirine yabancılaşır.</p>
+      <p>Siber dünyada da durum farklı değildir: <b>en güçlü güvenlik duvarı, vicdanı olmayan insanın önünde bir hiçtir.</b> Güçlü toplumlar büyük sistemlerle değil; güçlü karakterlerle, temiz vicdanlarla ve ahlaklı insanlarla inşa edilir.</p>
+    </div>
+  </section>
+
+  <!-- İLETİŞİM -->
+  <section id="hat" class="rv">
+    <div class="sec-head"><span class="sec-no">DOSYA-07</span><h2>Güvenli <span class="k">Hat</span><span class="imlec">_</span></h2></div>
+    <div class="hat-grid">
+      <a class="ccard t3d" href="https://wa.me/903423297544" target="_blank" rel="noopener">
+        <span class="ic"><img src="https://cdn.simpleicons.org/whatsapp/00ff9c" alt=""></span>
+        <div class="k">WhatsApp / Telefon</div><div class="v">0342 329 75 44</div><div class="s">Kriptolu mesaj — en hızlı hat</div>
+      </a>
+      <a class="ccard t3d" href="mailto:ustadkenankuzucu@gmail.com">
+        <span class="ic"><img src="https://cdn.simpleicons.org/gmail/00d4ff" alt=""></span>
+        <div class="k">E-posta</div><div class="v">ustadkenankuzucu@gmail.com</div><div class="s">İş teklifleri ve yazışmalar</div>
+      </a>
+      <a class="ccard t3d" href="https://www.linkedin.com/in/%C3%BCstad-k-75491133a" target="_blank" rel="noopener">
+        <span class="ic"><svg viewBox="0 0 24 24" fill="#00d4ff" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></span>
+        <div class="k">LinkedIn</div><div class="v">üstad-k-75491133a</div><div class="s">Profesyonel ağ</div>
+      </a>
+      <a class="ccard t3d" href="https://instagram.com/kenankuzucuofficiall" target="_blank" rel="noopener">
+        <span class="ic"><img src="https://cdn.simpleicons.org/instagram/00ff9c" alt=""></span>
+        <div class="k">Instagram</div><div class="v">@kenankuzucuofficiall</div><div class="s">Çalışmalar ve günlük paylaşımlar</div>
+      </a>
+      <a class="ccard t3d" href="https://www.youtube.com/@USTADKENANKUZUCU" target="_blank" rel="noopener">
+        <span class="ic"><img src="https://cdn.simpleicons.org/youtube/ff3b5c" alt=""></span>
+        <div class="k">YouTube</div><div class="v">USTAD KENAN KUZUCU</div><div class="s">Videolar ve içerikler</div>
+      </a>
+      <a class="ccard t3d" href="https://tiktok.com/@ustadkenankuzucu" target="_blank" rel="noopener">
+        <span class="ic"><img src="https://cdn.simpleicons.org/tiktok/8dffd1" alt=""></span>
+        <div class="k">TikTok</div><div class="v">@ustadkenankuzucu</div><div class="s">Tasarım ve teknik içerikler</div>
+      </a>
+    </div>
+    <div class="kart form-kutu">
+      <h3 style="font-size:16px">▸ Sinyal Gönder</h3>
+      <p style="color:var(--muted);font-size:13px">Mesajın şifreli değil ama doğrudan: WhatsApp'a düşer. Soru, iş birliği veya güvenlik farkındalığı eğitimi için yaz.</p>
+      <form id="sinyalForm">
+        <label class="flabel" for="fAd">Kimlik</label>
+        <input id="fAd" type="text" placeholder="Adın soyadın" required>
+        <label class="flabel" for="fMesaj">Mesaj / Şifre Çöz</label>
+        <textarea id="fMesaj" rows="3" placeholder="Örn: İşletmem için güvenlik kontrolü istiyorum / siber farkındalık eğitimi almak istiyorum..." required></textarea>
+        <button type="submit" class="btn btn-neon" style="margin-top:18px">⇪ Şifrelenmiş Gönder</button>
+        <div class="guvenli"><span class="asama">[OK]</span> Kanal: WhatsApp → Uçtan Uca → Üstad Kenan</div>
+      </form>
+    </div>
+  </section>
+  <!-- CANLI YAYIN -->
+  <section id="yayin" class="rv">
+    <div class="sec-head"><span class="sec-no">DOSYA-08</span><h2>Canlı <span class="k">Yayın</span><span class="imlec">_</span></h2></div>
+    <p style="color:var(--muted);font-size:13.5px;margin-bottom:18px">24 saat kesintisiz yayın yapan haber ve genel kanallar — tamamı canlı doğrulandı. Yayın sessiz başlar, <b style="color:var(--neon)">ses için kanala dokun</b>. Önce haber, önce bilgi.</p>
+    <div class="kart yayin-kutu" id="yayinKutu">
+      <div class="yayin-bas">
+        <span class="yayin-baslik">◆ CANLI YAYIN</span>
+        <span class="yayin-ad" id="yayinAd">TRT Haber</span>
+        <button class="yayin-dgm" id="yayinSes" type="button">Ses Aç</button>
+        <button class="yayin-dgm" id="yayinTam" type="button">⛶ Tam Ekran</button>
+      </div>
+      <video id="yayinVideo" muted playsinline preload="metadata"></video>
+      <div class="yayin-kanallar" id="yayinKanallar"></div>
+      <div class="yayin-msg" id="yayinMsg">Yükleniyor… TRT Haber (ses için kanala dokunun)</div>
+    </div>
+  </section>
+  <!-- RADYO -->
+  <section id="radyo" class="rv">
+    <div class="sec-head"><span class="sec-no">DOSYA-09</span><h2>Radyo <span class="k">Dinle</span><span class="imlec">_</span></h2></div>
+    <p style="color:var(--muted);font-size:13.5px;margin-bottom:18px">10 kanal — tamamı canlı doğrulandı (Eylül 2026). Seç, çalsın; kesintisiz müzik ve haber.</p>
+    <div class="kart radyo-bosluk">
+      <div class="yayin-bas">
+        <span class="yayin-baslik">◆ RADYO AKIŞI</span>
+        <span class="yayin-ad" style="text-align:center" id="radyoAd">Kanal bekleniyor...</span>
+      </div>
+      <div style="padding:14px 16px 4px"><div class="yayin-kanallar" id="radyoKanallar"></div></div>
+      <div style="padding:2px 16px 16px">
+        <audio id="radyoKontrol" controls preload="none"></audio>
+        <div class="yayin-msg" id="radyoMsg" style="margin-top:8px">Bir kanal seç — yayın başlasın.</div>
+      </div>
+    </div>
+  
+  </section>
+
+<!-- OPERASYON TAKVİMİ -->
+  <section id="takvim" class="rv">
+    <div class="sec-head"><span class="sec-no">DOSYA-10</span><h2>Operasyon <span class="k">Takvimi</span><span class="imlec">_</span></h2></div>
+    <div class="kart op-takvim">
+      <div class="takvim-ust">
+        <div class="tkv-etiket">SIRADAKİ OPERASYON</div>
+        <div class="tkv-ad">NET-HUNTER // MOBİL PENTEST</div>
+        <div class="tkv-detay">Redmi Note 12 — Mi Unlock → Magisk Root → Kali NetHunter LITE &nbsp;|&nbsp; Hedef: <b style="color:var(--neon)">15 Eylül 2026 · 16:45</b></div>
+        <div class="sayac" aria-label="Geri sayım">
+          <div class="sayac-kutu"><b id="opsGun">0</b><span>Gün</span></div>
+          <span class="sayac-nokta">:</span>
+          <div class="sayac-kutu"><b id="opsSaat">00</b><span>Saat</span></div>
+          <span class="sayac-nokta">:</span>
+          <div class="sayac-kutu"><b id="opsDak">00</b><span>Dakika</span></div>
+          <span class="sayac-nokta">:</span>
+          <div class="sayac-kutu"><b id="opsSan">00</b><span>Saniye</span></div>
+        </div>
+        <div class="tkv-durum" id="opsDurum">KONTROL EDİLİYOR...</div>
+      </div>
+    </div>
+    <div class="zaman">
+      <div class="zkonum"><div class="ztarih">1981 — Ankara / Çankaya</div><h4>Operasyon Başladı</h4><p>Kenan Kuzucu doğdu. Daha kimse bilmiyordu: bu çocuk bir gün hem makasa hem terminale hükmedecek.</p></div>
+      <div class="zkonum"><div class="ztarih">Çocukluk — Adana / Ceyhan</div><h4>Merak Fazı</h4><p>Büyüme yılları: disiplin, el becerisi ve "bu nasıl çalışıyor?" sorusu tohumlandı.</p></div>
+      <div class="zkonum"><div class="ztarih">Ustalık Yılları — Gaziantep</div><h4>Estetik Cephe</h4><p>Üstad Salon Kenan: saç tasarımında usta öğretici. İnsana dokunmanın ilk terminali berber koltuğu oldu.</p></div>
+            <div class="zkonum"><div class="ztarih">15 TEMMUZ 2016</div><h4>Demokrasi ve Millî Birlik</h4><p>Millet, demokrasisine ve millî iradesine sahip çıktı; şehitler verildi, destan yazıldı. Bu şuur, “vatan” kavramını tüm operasyonların etik zeminine kazıdı — bilgi vatanına hizmettir.</p></div>
+<div class="zkonum"><div class="ztarih">Dijital Uyanış</div><h4>Teknoloji Cephesi</h4><p>Python, Kali Linux, GitHub; MEB onaylı belgelerden uluslararası üniversitelere 443+ sertifika. Sürekli öğrenme modu açık.</p></div>
+      <div class="zkonum"><div class="ztarih">2026 — Siber Vitrin</div><h4>İlk Operasyonlar</h4><p>JARVIS-NG asistanı, 3D web kompleksi, OSINT laboratuvarı ve bu White Hat merkezi yayında.</p></div>
+      <div class="zkonum yaklasan"><div class="ztarih">15 EYLÜL 2026 · 16:45</div><h4>SIRADAKİ: NET-HUNTER</h4><p>Redmi Note 12'nin bootloader kilidi açılıyor → Magisk root → NetHunter LITE. Mobil güvenlik laboratuvarı kuruluyor.</p><span class="durum-led d-hazir">Hazırlık</span></div>
+      <div class="zkonum son"><div class="ztarih">Operasyondan Sonra</div><h4>Mobil Savunma Laboratuvarı</h4><p>Kendi cihazında izinli testler, ağ analizi ve eğitim çalışmaları — hepsi beyaz şapka protokolüyle.</p></div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <span class="gold">ÜSTAD KENAN KUZUCU // WHITE HAT</span> — Sanat &amp; Teknoloji · <span id="yil"></span>
+  <span class="uyari">⚠ Bu site eğitim ve bilgilendirme amaçlıdır. İçerikteki tüm güvenlik çalışmaları yalnızca sahibi olunan veya izin verilen sistemler üzerinde yürütülür.</span>
+</footer>
+</div>
+
+<!-- AKTİF KONSOL: canlı güvenlik günlüğü + komut merkezi -->
+<div class="konsol" id="konsol">
+  <div class="k-bas" id="konsolBas" title="Aç / küçült">
+    <span class="nokta"></span>
+    <span class="k-ad">root@ustad-kenan — AKTİF KONSOL</span>
+    <button class="k-dgm" id="konsolDgm" type="button" title="Küçült">–</button>
+  </div>
+  <div class="k-liste" id="konsolLog" aria-live="polite"></div>
+  <form class="k-giris" id="konsolForm">
+    <span class="k-prompt">root@ustad-kenan:~$</span>
+    <input id="konsolInput" type="text" placeholder="komut yaz — 'help'" autocomplete="off" spellcheck="false" aria-label="Terminal komutu">
+  </form>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.13/dist/hls.min.js"></script>
+<script>
+/* ============================================================
+   ÜSTAD KENAN // WHITE HAT — 3D Siber Operasyon Merkezi
+   ============================================================ */
+
+/* ---- 3D AĞ KÜRESİ (Three.js) ---- */
+(function(){
+  var cv=document.getElementById('uzay');
+  if(!cv||!window.THREE){if(cv){cv.style.display='none';}return;}
+  try{
+    var azalt=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var renderer=new THREE.WebGLRenderer({canvas:cv,alpha:true,antialias:true});
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,2));
+    renderer.setSize(window.innerWidth,window.innerHeight);
+    var sahne=new THREE.Scene();
+    sahne.fog=new THREE.Fog(0x010604,12,30);
+    var kam=new THREE.PerspectiveCamera(55,window.innerWidth/window.innerHeight,0.1,60);
+    kam.position.set(0,0,9.5);
+
+    var grup=new THREE.Group();sahne.add(grup);
+    var neon=0x00ff9c,mavi=0x00d4ff,acik=0x8dffd1;
+
+    /* --- veri küresi: yüzeyde düğümler + bağlantı ağı --- */
+    var KAPSAYIC=200, noktalar=[], baglar=[];
+    for(var i=0;i<KAPSAYIC;i++){
+      var u=Math.random()*Math.PI*2, v=Math.acos(2*Math.random()-1);
+      var y=4.6*Math.sin(v)*Math.cos(u), x=4.6*Math.sin(v)*Math.sin(u), z=4.6*Math.cos(v);
+      noktalar.push(x,y,z);
+    }
+    var kumeGeo=new THREE.BufferGeometry();
+    kumeGeo.setAttribute('position',new THREE.Float32BufferAttribute(noktalar,3));
+    var kumeMat=new THREE.PointsMaterial({color:neon,size:0.07,transparent:true,opacity:0.95});
+    var kume=new THREE.Points(kumeGeo,kumeMat);grup.add(kume);
+
+    for(var i=0;i<KAPSAYIC;i++){
+      for(var j=i+1;j<KAPSAYIC;j++){
+        var dx=noktalar[i*3]-noktalar[j*3],dy=noktalar[i*3+1]-noktalar[j*3+1],dz=noktalar[i*3+2]-noktalar[j*3+2];
+        var mes=Math.sqrt(dx*dx+dy*dy+dz*dz);
+        if(mes<1.35){baglar.push(noktalar[i*3],noktalar[i*3+1],noktalar[i*3+2],noktalar[j*3],noktalar[j*3+1],noktalar[j*3+2]);}
+      }
+    }
+    var cizgiGeo=new THREE.BufferGeometry();
+    cizgiGeo.setAttribute('position',new THREE.Float32BufferAttribute(baglar,3));
+    var cizgiMat=new THREE.LineBasicMaterial({color:neon,transparent:true,opacity:0.22});
+    var ag=new THREE.LineSegments(cizgiGeo,cizgiMat);grup.add(ag);
+
+    /* --- dış kabuk: çift çember + ışık halkası --- */
+    var kabuk=new THREE.Mesh(new THREE.SphereGeometry(4.6,24,18),
+      new THREE.MeshBasicMaterial({color:neon,wireframe:true,transparent:true,opacity:0.07}));
+    grup.add(kabuk);
+    var c1=new THREE.Mesh(new THREE.TorusGeometry(5.6,0.012,10,140),
+      new THREE.MeshBasicMaterial({color:neon,transparent:true,opacity:0.5}));
+    c1.rotation.set(1.9,0.4,0);grup.add(c1);
+    var c2=new THREE.Mesh(new THREE.TorusGeometry(6.4,0.008,10,140),
+      new THREE.MeshBasicMaterial({color:mavi,transparent:true,opacity:0.35}));
+    c2.rotation.set(0.7,1.2,0.5);grup.add(c2);
+
+    /* --- merkezde dönen veri çekirdeği --- */
+    var cekirdek=new THREE.Mesh(new THREE.IcosahedronGeometry(1.15,1),
+      new THREE.MeshBasicMaterial({color:neon,wireframe:true,transparent:true,opacity:0.28}));
+    grup.add(cekirdek);
+
+    /* --- yörünge uyduları (düğümler) --- */
+    var uydular=[];
+    for(var i=0;i<10;i++){
+      var renk=i%3===0?neon:(i%3===1?mavi:acik);
+      var uy=new THREE.Mesh(new THREE.SphereGeometry(0.09,12,10),new THREE.MeshBasicMaterial({color:renk}));
+      uy.userData={aci:(i/10)*Math.PI*2,faz:Math.random()*6.28,hiz:0.02+Math.random()*0.03,yar:5.0+Math.random()*0.9};
+      grup.add(uy);uydular.push(uy);
+    }
+
+    /* --- yıldız tozu --- */
+    var N=520,kon=new Float32Array(N*3);
+    for(var i=0;i<N;i++){
+      kon[i*3]=(Math.random()*30)-15;
+      kon[i*3+1]=(Math.random()*18)-9;
+      kon[i*3+2]=(Math.random()*14)-8;
+    }
+    var pgeo=new THREE.BufferGeometry();
+    pgeo.setAttribute('position',new THREE.BufferAttribute(kon,3));
+    var pm=new THREE.PointsMaterial({color:0x00ff9c,size:0.045,transparent:true,opacity:0.7,blending:THREE.AdditiveBlending,depthWrite:false});
+    var toz=new THREE.Points(pgeo,pm);grup.add(toz);
+
+    var mx=0,my=0,hx=0,hy=0;
+    if(!azalt){
+      window.addEventListener('pointermove',function(e){
+        mx=(e.clientX/window.innerWidth-0.5)*2;
+        my=(e.clientY/window.innerHeight-0.5)*2;
+      });
+    }
+    window.addEventListener('resize',function(){
+      renderer.setSize(window.innerWidth,window.innerHeight);
+      kam.aspect=window.innerWidth/window.innerHeight;kam.updateProjectionMatrix();
+    });
+
+    function kare(){
+      hx+=(mx-hx)*0.035;hy+=(my-hy)*0.035;
+      kam.position.x=hx*1.4;kam.position.y=-hy*0.9;
+      kam.lookAt(0,0,0);
+      grup.rotation.y+=0.0016;
+      grup.rotation.x=Math.sin(Date.now()*0.00015)*0.06;
+      cekirdek.rotation.x+=0.004;cekirdek.rotation.y+=0.007;
+      c1.rotation.z+=0.0012;c2.rotation.z-=0.0016;
+      for(var i=0;i<uydular.length;i++){
+        var u=uydular[i],d=u.userData;
+        d.aci+=d.hiz;
+        u.position.set(Math.cos(d.aci)*d.yar,Math.sin(d.faz+Date.now()*0.0004)*0.6,Math.sin(d.aci)*d.yar*0.7);
+      }
+      toz.rotation.y+=0.0004;
+      renderer.render(sahne,kam);
+      if(!azalt)requestAnimationFrame(kare);
+    }
+    if(azalt){renderer.render(sahne,kam);}else{requestAnimationFrame(kare);}
+  }catch(e){
+    var cv2=document.getElementById('uzay');if(cv2)cv2.style.display='none';
+  }
+})();
+
+/* ---- 3D eğilme (fare ile) ---- */
+(function(){
+  var azalt=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(azalt||!window.PointerEvent)return;
+  document.querySelectorAll('.t3d').forEach(function(k){
+    k.addEventListener('pointermove',function(e){
+      if(e.pointerType!=='mouse')return;
+      var r=k.getBoundingClientRect();
+      var x=(e.clientX-r.left)/r.width-0.5;
+      var y=(e.clientY-r.top)/r.height-0.5;
+      k.style.transform='perspective(900px) rotateY('+(x*8).toFixed(2)+'deg) rotateX('+(-y*8).toFixed(2)+'deg)';
+      k.style.transition='transform .07s linear';
+    });
+    k.addEventListener('pointerleave',function(){
+      k.style.transform='';
+      k.style.transition='transform .5s cubic-bezier(.2,.7,.2,1)';
+    });
+  });
+})();
+
+/* ---- Menü (mobil) ---- */
+(function(){
+  var m=document.querySelector('.menu'),l=document.getElementById('links');
+  if(!m||!l)return;
+  m.addEventListener('click',function(){var o=l.classList.toggle('open');m.setAttribute('aria-expanded',o);});
+  l.addEventListener('click',function(e){if(e.target.tagName==='A'){l.classList.remove('open');m.setAttribute('aria-expanded','false');}});
+})();
+
+/* ---- HUD: saat + yıl + kaydırma çubuğu ---- */
+(function(){
+  document.getElementById('yil').textContent=new Date().getFullYear();
+  function tik(){
+    var n=new Date();
+    var s=document.getElementById('hudSaat');
+    if(s)s.textContent=n.toLocaleTimeString('tr-TR')+' UTC+3';
+  }
+  tik();setInterval(tik,1000);
+  var kd=document.getElementById('kaydirma');
+  window.addEventListener('scroll',function(){
+    var h=document.documentElement.scrollHeight-window.innerHeight;
+    kd.style.width=(h>0?(window.scrollY/h)*100:0)+'%';
+  },{passive:true});
+})();
+
+/* ---- Görünüm animasyonu ---- */
+(function(){
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){
+      es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});
+    },{threshold:0.08});
+    document.querySelectorAll('.rv').forEach(function(el){io.observe(el);});
+  }else{
+    document.querySelectorAll('.rv').forEach(function(el){el.classList.add('in');});
+  }
+})();
+
+/* ---- Sayı sayaçları ---- */
+(function(){
+  function sayac(elId,hedef,sure){
+    var el=document.getElementById(elId);if(!el)return;
+    var bas=null;
+    function adim(t){
+      if(!bas)bas=t;
+      var p=Math.min((t-bas)/sure,1);
+      el.textContent=Math.round(hedef*(p<0.5?2*p*p:1-Math.pow(-2*p+2,2)/2));
+      if(p<1)requestAnimationFrame(adim);
+    }
+    requestAnimationFrame(adim);
+  }
+  /* hero sayaçları: sayfa açılınca (boot bitince) */
+  function heroSay(){
+    sayac('sayiBelge',443,1500);sayac('sayiKurum',35,1300);sayac('sayiArac',6,900);
+  }
+  var bootEl=document.getElementById('boot');
+  function bootBitince(calis){
+    if(!bootEl||bootEl.classList.contains('gizli')){calis();return;}
+    var ar=setInterval(function(){
+      if(bootEl.classList.contains('gizli')){clearInterval(ar);calis();}
+    },150);
+    setTimeout(function(){clearInterval(ar);calis();},3400);
+  }
+  bootBitince(function(){setTimeout(heroSay,300);});
+  /* depo toplamı: depo görününce */
+  var depo=document.getElementById('depo');
+  if(depo){
+    if('IntersectionObserver' in window){
+      var io=new IntersectionObserver(function(es){
+        es.forEach(function(e){
+          if(e.isIntersecting){
+            sayac('toplamBelge',443,1400);
+            io.disconnect();
+          }
+        });
+      },{threshold:0.2});
+      io.observe(depo);
+    }else{
+      document.getElementById('toplamBelge').textContent=443;
+    }
+  }
+})();
+
+/* ---- Sertifika çipleri ---- */
+(function(){
+  var univ=[
+    ['Harvard Üniversitesi',2],['Oxford Üniversitesi',2],['Johns Hopkins Üniversitesi',7],
+    ['Michigan Üniversitesi',7],['Maryland Üniversitesi',5],['Tasmanya Üniversitesi',5],
+    ['OP Jindal Global Üniversitesi',5],['Açık Üniversite',2]
+  ];
+  var akademi=[
+    ['BTK Akademi',84],['LinkedIn Learning',120],['Microsoft',86],['IBM',3],['Google',4],
+    ['Cisco Academy',2],['YouTube Akademisi',8],['Udemy',2],['Semrush Akademisi',4],
+    ['Coursera Proje Ağı',4],['Alison Akademisi',2],['HubSpot Akademisi',1],['Mindluster',5],
+    ['Geleceği Yazanlar (Turkcell)',8],['SPL',3],['AISEC University',5]
+  ];
+  function doldur(id,liste,ekstra){
+    var k=document.getElementById(id);if(!k)return;
+    liste.forEach(function(s){
+      var c=document.createElement('span');c.className='chip';
+      c.innerHTML=s[0]+' · <b>'+s[1]+'</b>'+(ekstra&&s[2]?' '+s[2]:'');
+      k.appendChild(c);
+    });
+  }
+  doldur('univChips',univ);
+  doldur('akademiChips',akademi);
+  document.getElementById('akademiChips').innerHTML+='<span class="chip">Microsoft · <b>25 kupa</b></span>';
+  /* toplam hesapla */
+  var un=univ.reduce(function(a,b){return a+b[1];},0);
+  var ak=akademi.reduce(function(a,b){return a+b[1];},0)+25;
+  var tp=42+un+ak;
+  var el=document.getElementById('toplamBelge');if(el)el.setAttribute('data-gercek',tp);
+})();
+
+/* ---- BOOT EKRANI ---- */
+(function(){
+  var boot=document.getElementById('boot'),ekran=document.getElementById('bootEkran');
+  if(!boot||!ekran)return;
+  var azalt=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var satirlar=[
+    '<span class="b-ok">root@ustad-kenan:~#</span> ./baslat.sh --siber-guvenlik',
+    '<span class="b-satir">ÇEKİRDEK YÜKLENİYOR ......... <span class="b-tamam">[TAMAM]</span></span>',
+    '<span class="b-satir">GÜVENLİK DUVARI ............ <span class="b-tamam">[AKTİF]</span></span>',
+    '<span class="b-satir">AĞ BAĞLANTISI .............. <span class="b-tamam">[GAZİANTEP//TR]</span></span>',
+    '<span class="b-satir">YETKİ KONTROLÜ ............. <span class="b-tamam">[WHITE HAT DOĞRULANDI]</span></span>',
+    '<span class="b-satir">SERTİFİKA DEPOSU ............ <span class="b-tamam">[443+ KAYIT]</span></span>',
+    '<span class="b-kirmizi">ERİŞİM İZNİ: VERİLDİ — HOŞ GELDİN KOMUTAN</span>'
+  ];
+  if(azalt){
+    boot.classList.add('gizli');
+  }else{
+    var i=0;
+    var aralik=setInterval(function(){
+      if(i<satirlar.length){
+        var d=document.createElement('div');d.style.marginBottom='3px';d.innerHTML=satirlar[i];
+        ekran.appendChild(d);i++;
+        ekran.scrollTop=ekran.scrollHeight;
+      }else{
+        clearInterval(aralik);
+        setTimeout(function(){boot.classList.add('gizli');},900);
+        document.dispatchEvent(new CustomEvent('bootBitti'));
+      }
+    },260);
+  }
+})();
+
+/* ---- HERO TERMİNAL: yazma efekti ---- */
+(function(){
+  var govde=document.getElementById('termGovde');
+  if(!govde)return;
+  var azalt=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var satirlar=[
+    {k:'<span class="t-yol">root@ustad-kenan:~$</span> <span class="t-istek">whoami</span>',c:'<span class="t-cevap">Üstad Kenan Kuzucu — Etik Hacker &amp; Siber Güvenlik Araştırmacısı</span>'},
+    {k:'<span class="t-yol">root@ustad-kenan:~$</span> <span class="t-istek">cat misyon.txt</span>',c:'<span class="t-cevap">“Bilgi güçtür; güç doğru ellere emanettir.”</span>'},
+    {k:'<span class="t-yol">root@ustad-kenan:~$</span> <span class="t-istek">./calistir --mod=savunma</span>',c:'<span class="t-cevap">Sistem hazır. Mod: SAVUNMA &amp; EĞİTİM. Zarar yok, rapor var.<span class="t-imlec"></span></span>'}
+  ];
+  if(azalt){
+    var h='';
+    satirlar.forEach(function(s){h+=s.k+'\n'+s.c+'\n\n';});
+    govde.innerHTML=h;
+    return;
+  }
+  var bekle=function(ms){return new Promise(function(r){setTimeout(r,ms);});};
+  async function baslat(hizli){
+    if(!hizli)await bekle(2600); /* boot'un bitmesini bekle */
+    for(var si=0;si<satirlar.length;si++){
+      var s=satirlar[si];
+      var satirEl=document.createElement('div');
+      satirEl.style.marginBottom='10px';
+      govde.appendChild(satirEl);
+      var komut=s.k;
+      var imlec=document.createElement('span');imlec.className='t-imlec';
+      var yaziD=document.createElement('span');
+      /* komutu karakter karakter yaz */
+      var metin=komut.replace(/<[^>]*>/g,''); /* düz metin */
+      var kac=0;
+      await new Promise(function(res){
+        var ty=setInterval(function(){
+          if(kac<=metin.length){
+            yaziD.textContent=metin.slice(0,kac);
+            kac+=2;
+            satirEl.innerHTML='';
+            satirEl.appendChild(yaziD);satirEl.appendChild(imlec);
+          }else{clearInterval(ty);res();}
+        },28);
+      });
+      await bekle(160);
+      satirEl.innerHTML=komut;
+      var cevap=document.createElement('div');cevap.innerHTML=s.c;
+      cevap.style.color='var(--text)';cevap.style.marginTop='2px';
+      satirEl.appendChild(cevap);
+      await bekle(500);
+    }
+    govde.querySelectorAll('.t-imlec').forEach(function(e){e.remove();});
+  }
+  var bootB=document.getElementById('boot');
+  function beklerBoot(calis){
+    if(!bootB||bootB.classList.contains('gizli')){calis(true);return;}
+    var ar=setInterval(function(){
+      if(bootB.classList.contains('gizli')){clearInterval(ar);calis(true);}
+    },150);
+    setTimeout(function(){clearInterval(ar);calis(true);},3400);
+  }
+  beklerBoot(function(hizli){baslat(true);});
+})();
+
+/* ---- WhatsApp sinyal formu ---- */
+(function(){
+  var F=document.getElementById('sinyalForm');
+  if(!F)return;
+  F.addEventListener('submit',function(e){
+    e.preventDefault();
+    var ad=document.getElementById('fAd').value.trim();
+    var msj=document.getElementById('fMesaj').value.trim();
+    var txt='Merhaba Üstad Kenan! Siber güvenlik sayfanızdan yazıyorum. Ben '+ad+'. '+msj;
+    window.open('https://wa.me/903423297544?text='+encodeURIComponent(txt),'_blank');
+  });
+})();
+
+/* ---- Kayan şerit içeriğini ikiye katla (kesintisiz) ---- */
+(function(){
+  var s=document.getElementById('seritIc');
+  if(s){s.innerHTML=s.innerHTML+s.innerHTML;}
+})();
+/* ---- AKTİF KONSOL: canlı günlük + komut merkezi ---- */
+(function(){
+  var kutu=document.getElementById('konsol');
+  var log=document.getElementById('konsolLog');
+  var form=document.getElementById('konsolForm');
+  var giris=document.getElementById('konsolInput');
+  if(!kutu||!log||!form)return;
+  var azalt=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function satir(renk,metin){
+    var d=document.createElement('div');d.className='k-satir '+renk;
+    d.textContent=metin;log.appendChild(d);
+    while(log.children.length>80){log.removeChild(log.firstChild);}
+    log.scrollTop=log.scrollHeight;
+  }
+  /* günlük olay havuzu */
+  var olaylar=[
+    ['k-yesil','GÜVENLİK DUVARI: şüpheli SYN isteği engellendi'],
+    ['k-mavi','PAKET YAKALANDI: TCP/443 → ÜST GAZİANTEP'],
+    ['k-sari','KABA KUVVET DENEMESİ DURDURULDU (5 hatalı giriş)'],
+    ['k-yesil','SİSTEM TARAMASI: 0 açık port — 0 tehdit bulundu'],
+    ['k-gri','SSL HANDSHAKE TAMAM — kanal şifreli'],
+    ['k-yesil','JARVIS-NG NABZI: çalışıyor (41 araç hazır)'],
+    ['k-mavi','YEDEK ALINDI: hafıza ve kayıtlar güvende'],
+    ['k-sari','NET-HUNTER PLANI: 15 EYLÜL — Mi Unlock bekleniyor'],
+    ['k-mavi','İZLEYİCİ: yeni bağlantı kaydedildi'],
+    ['k-yesil','ÇEKİRDEK SICAKLIĞI: normal — sistem dengede']
+  ];
+  function rastgeleIp(){return '212.174.'+(20+Math.floor(Math.random()*200))+'.'+Math.floor(Math.random()*255);}
+  function günlük(){
+    var o=olaylar[Math.floor(Math.random()*olaylar.length)];
+    var metin=o[1];
+    if(metin.indexOf('SYN')>=0||metin.indexOf('kaynak')>=0||metin.indexOf('bağlantı')>=0){
+      metin=metin.replace('İZLEYİCİ','İZLEYİCİ ['+rastgeleIp()+']');
+    }
+    satir(o[0],'▸ '+metin);
+  }
+
+  /* komut sözlüğü */
+  function komut(cmd){
+    var c=cmd.trim().toLowerCase().replace(/\s+/g,' ');
+    switch(c){
+      case 'help': case 'yardim': case '?':
+        return [['k-mavi','KOMUTLAR:'],
+          ['k-gri',' whoami  kimlik  misyon  cephe  depo  operasyon'],
+          ['k-gri',' sosyal  jarvis  tarih  ping  kitaplar  sudo  temizle']];
+      case 'whoami':
+        return [['k-yesil','Üstad Kenan Kuzucu — Kod: ÜSTAD_KENAN'],
+          ['k-gri','Rol: Etik Hacker / White Hat — Durum: AKTİF'],
+          ['k-gri','Üs: Gaziantep // TR']];
+      case 'kimlik':
+        return [['k-mavi','1981 — Ankara/Çankaya doğumlu.'],
+          ['k-gri','Büyüme: Adana/Ceyhan · Köken: Şanlıurfa/Halfeti · Üs: Gaziantep/Şehitkamil'],
+          ['k-gri','Uzmanlık: Siber Güvenlik · Yazılım · Donanım · Saç Tasarımı (Usta Öğretici)']];
+      case 'misyon':
+        return [['k-yesil','“Bilgi güçtür; güç doğru ellere emanettir.”'],
+          ['k-gri','İzinsiz girilmez → Zarar verilmez → Bulunan açık raporlanır. Beyaz şapka protokolü.']];
+      case 'cephe':
+        return [['k-mavi','DİJİTAL CEPHE: Kali Linux, Python, GitHub, donanım, OSINT, NetHunter'],
+          ['k-mavi','ESTETİK CEPHE: Usta Öğretici — Saç Tasarımı & Stil Yönetimi']];
+      case 'depo':
+        return [['k-yesil','SERTİFİKA DEPOSU: 443+ kayıt'],
+          ['k-gri','42 MEB belgesi · 35 uluslararası üniversite sertifikası · 366 akademi rozeti']];
+      case 'operasyon':
+        return [['k-mavi','JARVIS-NG — AKTİF · NET-HUNTER — 15 EYLÜL HAZIRLIK'],
+          ['k-mavi','CYBER-3D — YAYINDA · OSINT-LAB — DEVAM · THREAT-RE — ARŞİV'],
+          ['k-mavi','KALEM-OP — AKTİF (5 kitap · 12 senaryo)']];
+      case 'sosyal': case 'iletisim':
+        return [['k-mavi','WhatsApp/Telefon: 0342 329 75 44'],
+          ['k-mavi','E-posta: ustadkenankuzucu@gmail.com'],
+          ['k-gri','Instagram: @kenankuzucuofficiall · YouTube: USTAD KENAN KUZUCU']];
+      case 'jarvis':
+        return [['k-yesil','JARVIS-NG: “hey JARVIS” ile uyanan sesli asistan.'],
+          ['k-gri','41 araç · hafıza · animasyonlu panel — saf Python. Ana üs: masaüstü/JARVIS-NG']];
+      case 'tarih':
+        return [['k-gri',new Date().toLocaleDateString('tr-TR',{weekday:'long',day:'numeric',month:'long',year:'numeric'})+' — '+new Date().toLocaleTimeString('tr-TR')+' (UTC+3)']];
+      case 'ping':
+        return [['k-yesil','PING 8.8.8.8: 4 gönderildi, 4 alındı, kayıp %0 (simülasyon)'],
+          ['k-gri','Gidiş-dönüş: 12-18 ms — bağlantı sağlam']];
+      case 'hack':
+        return [['k-kirmizi','YETKİ HATASI: İzinsiz işlem engellendi.'],
+          ['k-gri','Bu üste beyaz şapka protokolü geçerli. Amacın buysa: misyon yaz, birlikte savunma yapalım.']];
+      case 'sudo':
+        return [['k-sari','Nice deneme :) Yetki seviyen zaten WHITE HAT — sudo gerekmiyor.']];
+      case 'kitaplar':
+        return [['k-mavi','KALEMDEN: Ahlaksız Toplumlar · Leş Kalbinizi Vicdanınıza Anlatın · Bir Annenin Kalbi · Param Yok Ki Vergi Mi Vereyim · İyilik Maskesinde Kibir'],
+          ['k-gri','Ayrıca: 12 film senaryosu + yüzlerce şiir']];
+      case 'temizle': case 'clear':
+        log.innerHTML='';
+        return [['k-gri','Konsol temizlendi — komut yaz: help']];
+      case '':
+        return [['k-gri','Komut bekleniyor... (help yaz)']];
+      default:
+        return [['k-kirmizi','komut bulunamadı: '+cmd.trim()],['k-gri','Yardım için: help']];
+    }
+  }
+
+  form.addEventListener('submit',function(e){
+    e.preventDefault();
+    var deger=giris.value;
+    if(deger.trim()==='')return;
+    satir('k-beyaz','root@ustad-kenan:~$ '+deger);
+    giris.value='';
+    komut(deger).forEach(function(l){satir(l[0],l[1]);});
+    satir('k-gri','');
+  });
+
+  /* küçült / aç */
+  var dgm=document.getElementById('konsolDgm');
+  function gec(){
+    var kucuk=kutu.classList.toggle('kucuk');
+    dgm.textContent=kucuk?'+':'–';
+    if(!kucuk)giris.focus();
+  }
+  if(dgm)dgm.addEventListener('click',function(e){e.stopPropagation();gec();});
+  document.getElementById('konsolBas').addEventListener('click',function(e){
+    if(e.target===dgm)return;
+    if(kutu.classList.contains('kucuk')){gec();}else{giris.focus();}
+  });
+
+  /* karşılama + günlük döngüsü */
+  function basla(){
+    satir('k-yesil','AKTİF KONSOL BAĞLANTISI KURULDU — hoş geldin komutan');
+    satir('k-gri','Yardım için: help | Erişim seviyesi: WHITE HAT');
+    satir('k-gri','');
+    if(!azalt){
+      günlük();
+      setInterval(function(){
+        if(!document.hidden)günlük();
+      },3400);
+    }
+  }
+  var bootK=document.getElementById('boot');
+  (function(){
+    if(!bootK||bootK.classList.contains('gizli')){setTimeout(basla,500);return;}
+    var ar=setInterval(function(){
+      if(bootK.classList.contains('gizli')){clearInterval(ar);basla();}
+    },150);
+    setTimeout(function(){clearInterval(ar);basla();},3400);
+  })();
+})();
+
+/* ---- SAVUNMA EĞİTİMİ: Phishing Avcısı ---- */
+(function(){
+  var kok=document.getElementById('quizKok');
+  if(!kok)return;
+  var SENARYOLAR=[
+    {tur:'KARGO SMS — BİLİNMEYEN NUMARA',
+     metin:`"Kargonuz dağıtım merkezinde bekliyor. Teslimat için adres doğrulamanız gerekiyor: [kargo-takip-sistemi.xyz/duyuru] adresine tıklayın."`,
+     sec:[
+       {t:'Tuzak — linke tıklamam. Resmî kargo firmasının sitesine kendim girer, takip no ile bakarım.',d:true},
+       {t:'Güvenli görünüyor — kargom geldiğine göre tıklarım.',d:false},
+       {t:'Acil durum, link kısa olduğu için tıklarım.',d:false}],
+     ac:`<b>Neden tuzak?</b> Acil üslup + adres doğrulama baskısı + bilinmeyen alan adı (kargo-takip-sistemi.xyz resmî değil) = klasik kimlik avı. Gerçek kargo firması SMS'te linkle "adres doğrula" baskısı yapmaz.`},
+    {tur:'E-POSTA — SAHTE BANKA',
+     metin:`"Sayın müşterimiz, hesabınız güvenlik nedeniyle kısıtlandı. Giriş yapın: http://bankam.giris-dogrula.com — 24 saat içinde işlem yapılmazsa hesap kapatılacak."`,
+     sec:[
+       {t:'Acil! Hemen linke tıklayıp giriş yaparım.',d:false},
+       {t:'Tuzak — adres resmî site değil (bankam.giris-dogrula.com). Bankamın resmî uygulamasından kontrol ederim.',d:true},
+       {t:'Gönderen adı bankam gibi görünüyor, tıklarım.',d:false}],
+     ac:`<b>Neden tuzak?</b> Gerçek bankalar e-posta ile "hesap kapatılır" baskısı yapıp linkle giriş istemez. Alan adı sahte (giris-dogrula.com). Tek doğru yol: bankanın resmî uygulaması veya adresi tarayıcıya kendin yazmak.`},
+    {tur:'INSTAGRAM — ELE GEÇİRİLMİŞ HESAP',
+     metin:`Arkadaşın yazıyor: "Ya bu videoda sen varmışsın :)) izle → [link]" — normalde hiç link atmaz.`,
+     sec:[
+       {t:'Merak ettim, linke tıklarım.',d:false},
+       {t:'Tuzak olabilir — hesabı ele geçirilmiş demektir. Linke tıklamam, telefonda arayıp sorarım.',d:true},
+       {t:'Arkadaşım gönderdi, güvenlidir.',d:false}],
+     ac:`<b>Neden tuzak?</b> Hesaplar ele geçirilince saldırgan herkese aynı mesajı atar. Alışılmadık link gelirse farklı kanaldan (telefon/sesli) teyit et ve arkadaşını hesabının ele geçirildiği konusunda uyar.`},
+    {tur:'E-POSTA — RESMÎ GÖRÜNÜMLÜ ŞİFRE UYARISI',
+     metin:`"Hesabında şüpheli giriş tespit ettik. Şifreni değiştir" + büyük mavi buton. Gönderen adresi security@google.com görünüyor ama gerçek olup olmadığından emin değilsin.`,
+     sec:[
+       {t:'Butona tıklarım — adres gerçek görünüyor.',d:false},
+       {t:'Butona tıklamadan tarayıcıya google adresini kendim yazarak hesabımın güvenlik sayfasına giderim; şüpheliyse 2 adımlı doğrulamayı açarım.',d:true},
+       {t:'E-posta resmî görünüyorsa içindeki her link güvenlidir.',d:false}],
+     ac:`<b>Neden?</b> Gönderen adı taklit edilebilir (spoofing). Altın kural: önemli işlemlerde e-posta/SMS içindeki linki asla kullanma — siteye kendin git. Şüpheli giriş bildirimi geldiyse şifreni oradan değiştir ve 2 adımlı doğrulamayı aç.`}
+  ];
+  var cevaplar={};
+  function kartiCiz(i){
+    var s=SENARYOLAR[i];
+    var kart=document.createElement('div');
+    kart.setAttribute('data-s',i);
+    kart.style.marginBottom='8px';
+    var no=document.createElement('div');no.className='soruNo';
+    no.textContent='SENARYO '+(i+1)+' / '+SENARYOLAR.length;
+    kart.appendChild(no);
+    var sahne=document.createElement('div');sahne.className='sahne';
+    sahne.innerHTML='<div class="bas">▸ '+s.tur+'</div>'+s.metin;
+    kart.appendChild(sahne);
+    s.sec.forEach(function(o,si){
+      var b=document.createElement('button');b.type='button';b.className='secenek';
+      b.textContent='['+String.fromCharCode(65+si)+'] '+o.t;
+      b.addEventListener('click',function(){
+        if(cevaplar[i]!==undefined)return;
+        cevaplar[i]=o.d;
+        kart.querySelectorAll('.secenek').forEach(function(x){x.disabled=true;});
+        b.classList.add(o.d?'dogru':'yanlis');
+        if(!o.d){
+          var dogruB=kart.querySelectorAll('.secenek')[s.sec.findIndex(function(x){return x.d;})];
+          dogruB.classList.add('dogru');
+        }
+        var ac=kart.querySelector('.aciklama');
+        if(ac){ac.style.display='block';ac.innerHTML=s.ac;}
+        skorGuncelle();
+      });
+      kart.appendChild(b);
+    });
+    var ac=document.createElement('div');ac.className='aciklama';
+    kart.appendChild(ac);
+    kok.appendChild(kart);
+  }
+  function skorGuncelle(){
+    var n=Object.keys(cevaplar).length;
+    if(n<SENARYOLAR.length)return;
+    var dogru=0;
+    for(var k in cevaplar){if(cevaplar[k])dogru++;}
+    var mesaj;
+    if(dogru===4){mesaj='SAVUNMA SEVİYESİ: A+ — ZIRH SAĞLAM. Seni kandırmak zor kardeşim.';}
+    else if(dogru===3){mesaj='A — İyi iş! Bir senaryoda dikkat: şüphe anında linke asla dokunma.';}
+    else if(dogru===2){mesaj='B — Geliştirilebilir. Açıklamaları bir kez daha oku, tekrar dene.';}
+    else{mesaj='C — Eğitim şart! Açıklamaları oku; bir hafta sonra tekrar dene — farkı göreceksin.';}
+    var kutu=document.createElement('div');kutu.className='skor-kutu';kutu.style.display='block';
+    kutu.innerHTML='<b>SKOR: '+dogru+' / '+SENARYOLAR.length+'</b><span>'+mesaj+'</span>';
+    var tr=document.createElement('button');tr.type='button';tr.className='tekrar';tr.textContent='↻ TESTİ TEKRARLA';
+    tr.addEventListener('click',function(){
+      cevaplar={};
+      kok.innerHTML='';
+      SENARYOLAR.forEach(function(_,i){kartiCiz(i);});
+    });
+    kutu.appendChild(tr);
+    kok.appendChild(kutu);
+    kutu.scrollIntoView({behavior:'smooth',block:'center'});
+  }
+  SENARYOLAR.forEach(function(_,i){kartiCiz(i);});
+})();
+
+/* ---- SAVUNMA EĞİTİMİ: Şifre Gücü Ölçer ---- */
+(function(){
+  var giris=document.getElementById('sifreGiris');
+  if(!giris)return;
+  var goster=document.getElementById('sifreGoster');
+  var dolgu=document.getElementById('gucDolgu');
+  var etiket=document.getElementById('gucEtiket');
+  var puanEl=document.getElementById('gucPuan');
+  var oneriEl=document.getElementById('gucOneri');
+  var ortak=['123456','12345678','123456789','12345','qwerty','password','parola','sifre','şifre','123123','111111','000000','1q2w3e4r','654321','kenan','kuzucu','ustadkenan','ankara','gaziantep','1453','iloveyou','letmein','abc123','aa123456'];
+  function sifirla(){
+    dolgu.style.width='0%';dolgu.style.boxShadow='none';
+    etiket.textContent='Şifre bekleniyor...';etiket.style.color='';
+    puanEl.textContent='0/100';puanEl.style.color='';
+    oneriEl.textContent='';
+  }
+  function olc(s){
+    if(!s){sifirla();return;}
+    var l=s.length;
+    var kucuk=/[a-zçğıöşü]/.test(s);
+    var buyuk=/[A-ZÇĞİÖŞÜ]/.test(s);
+    var rakam=/[0-9]/.test(s);
+    var sembol=/[^A-Za-z0-9ÇĞİÖŞÜçğıöşü]/.test(s);
+    var p;
+    if(l<6)p=8;else if(l<8)p=30;else if(l<10)p=52;else if(l<12)p=70;else p=84;
+    p+=(buyuk?4:0)+(rakam?6:0)+(sembol?7:0);
+    if(kucuk&&buyuk&&rakam&&sembol)p+=2;
+    if(!kucuk&&!buyuk)p=Math.min(p,20);
+    if(/(.)\1{2}/.test(s))p-=14;
+    var alt=s.toLowerCase();
+    for(var i=0;i<ortak.length;i++){if(alt===ortak[i]){p=5;break;}}
+    p=Math.max(0,Math.min(100,p));
+    var renk,etiketYaz;
+    if(p<35){renk='#ff3b5c';etiketYaz='ZAYIF — kırılması saniyeler sürer';}
+    else if(p<60){renk='#ffd166';etiketYaz='ORTA — geliştirilmesi gerek';}
+    else if(p<82){renk='#00d4ff';etiketYaz='İYİ — sağlam temel';}
+    else{renk='#00ff9c';etiketYaz='GÜÇLÜ — zırh sağlam';}
+    dolgu.style.width=p+'%';
+    dolgu.style.boxShadow='0 0 16px '+renk;
+    etiket.textContent=etiketYaz;etiket.style.color=renk;
+    puanEl.textContent=p+'/100';puanEl.style.color=renk;
+    var oneriler=[];
+    if(p<=5)oneriler.push('Bu şifre bilinen zayıf şifre listesinde — hemen değiştir!');
+    if(l<12)oneriler.push('En az 12 karakter kullan ('+l+' şu an)');
+    if(!buyuk)oneriler.push('Büyük harf ekle');
+    if(!rakam)oneriler.push('Rakam ekle');
+    if(!sembol)oneriler.push('Sembol ekle (!@#$%)');
+    if(!kucuk&&l>0)oneriler.push('Küçük harf ekle');
+    if(/(.)\1{2}/.test(s))oneriler.push('Tekrar eden karakterleri azalt');
+    if(oneriler.length===0)oneriler.push('Mükemmel! Yine de: her hesapta farklı şifre + 2 adımlı doğrulama şart.');
+    oneriEl.textContent='» '+oneriler.slice(0,3).join('  •  ');
+  }
+  giris.addEventListener('input',function(){olc(giris.value);});
+  if(goster){
+    goster.addEventListener('click',function(){
+      var acik=giris.type==='text';
+      giris.type=acik?'password':'text';
+      goster.textContent=acik?'GÖSTER':'GİZLE';
+    });
+  }
+  olc('');
+})();
+/* ---- CANLI YAYIN: 24 saat kanallar (HLS) ---- */
+(function(){
+  var kutu=document.getElementById('yayinKutu');
+  var video=document.getElementById('yayinVideo');
+  var ad=document.getElementById('yayinAd');
+  var msg=document.getElementById('yayinMsg');
+  var kanallarEl=document.getElementById('yayinKanallar');
+  var sesBtn=document.getElementById('yayinSes');
+  var tamBtn=document.getElementById('yayinTam');
+  if(!kutu||!video)return;
+  var KANALLAR=[
+    {n:'TRT Haber',u:'https://tv-trthaber.medya.trt.com.tr/master.m3u8',h:true},
+    {n:'A Haber',u:'https://trkvz-live.ercdn.net/ahaberhd/ahaberhd.m3u8',h:true},
+    {n:'24 TV',u:'https://turkmedya-live.ercdn.net/tv24/tv24.m3u8',h:true},
+    {n:'TRT 1',u:'https://tv-trt1.medya.trt.com.tr/master.m3u8'},
+    {n:'TRT World',u:'https://tv-trtworld.medya.trt.com.tr/master.m3u8'},
+    {n:'TRT Türk',u:'https://tv-trtturk.medya.trt.com.tr/master.m3u8'},
+    {n:'TRT Belgesel',u:'https://tv-trtbelgesel.medya.trt.com.tr/master.m3u8'},
+    {n:'TRT Müzik',u:'https://tv-trtmuzik.medya.trt.com.tr/master.m3u8'},
+    {n:'TRT Çocuk',u:'https://tv-trtcocuk.medya.trt.com.tr/master.m3u8'},
+    {n:'TRT Kurdî',u:'https://tv-trtkurdi.medya.trt.com.tr/master.m3u8'},
+    {n:'TRT Avaz',u:'https://tv-trtavaz.medya.trt.com.tr/master.m3u8'},
+    {n:'TRT Arabi',u:'https://tv-trtarabi.medya.trt.com.tr/master.m3u8'}
+  ];
+  var hls=null,aktif=null,ilkKuruldu=false;
+  function kur(k){
+    aktif=k;
+    ad.textContent=k.n;
+    msg.textContent='Yükleniyor… '+k.n;
+    if(hls){try{hls.destroy();}catch(e){}hls=null;window._yayinHls=null;}
+    if(window.Hls&&Hls.isSupported()){
+      hls=new Hls();window._yayinHls=hls;
+      hls.loadSource(k.u);hls.attachMedia(video);
+      hls.on(Hls.Events.MANIFEST_PARSED,function(){
+        video.play().catch(function(){});
+        if(document.fullscreenElement||document.webkitFullscreenElement){
+          try{if(hls.levels&&hls.levels.length>1){hls.nextLevel=hls.levels.length-1;}}catch(e){}
+        }
+      });
+      hls.on(Hls.Events.ERROR,function(e,d){
+        if(d&&d.fatal){msg.textContent='Yayın açılamadı — interneti kontrol et ya da başka kanal dene.';}
+      });
+    }else if(video.canPlayType('application/vnd.apple.mpegurl')){
+      video.src=k.u;video.play().catch(function(){});
+    }else{msg.textContent='Bu tarayıcı canlı yayın desteklemiyor.';return;}
+    /* kanal vurgusu */
+    var tuslar=kanallarEl.querySelectorAll('.yayin-kan');
+    for(var i=0;i<tuslar.length;i++){
+      tuslar[i].classList.toggle('on',tuslar[i].getAttribute('data-ad')===k.n);
+    }
+  }
+  function durdur(){
+    if(hls){try{hls.destroy();}catch(e){}hls=null;window._yayinHls=null;}
+    video.removeAttribute('src');video.load();
+    aktif=null;msg.textContent='Yayın durduruldu — kanal seç, devam etsin.';
+    var tuslar=kanallarEl.querySelectorAll('.yayin-kan');
+    for(var i=0;i<tuslar.length;i++){tuslar[i].classList.remove('on');}
+    ad.textContent='— DURDU —';
+  }
+  /* kanal düğmeleri */
+  KANALLAR.forEach(function(k){
+    var b=document.createElement('button');b.type='button';
+    b.className='yayin-kan'+(k.h?' haber':'');
+    b.textContent=k.n;b.setAttribute('data-ad',k.n);
+    b.addEventListener('click',function(){
+      if(aktif&&aktif.n===k.n){durdur();return;}
+      video.muted=false;sesBtn.textContent='Sesi Kapat';
+      kur(k);
+    });
+    kanallarEl.appendChild(b);
+  });
+  /* ses */
+  if(sesBtn)sesBtn.addEventListener('click',function(){
+    video.muted=!video.muted;
+    sesBtn.textContent=video.muted?'Ses Aç':'Sesi Kapat';
+  });
+  /* tam ekran */
+  function acik(){return document.fullscreenElement||document.webkitFullscreenElement;}
+  function gec(){
+    if(!acik()){
+      var r=kutu.requestFullscreen||kutu.webkitRequestFullscreen;
+      if(r)r.call(kutu);
+    }else{
+      var x=document.exitFullscreen||document.webkitExitFullscreen;
+      if(x)x.call(document);
+    }
+  }
+  if(tamBtn)tamBtn.addEventListener('click',gec);
+  video.addEventListener('dblclick',gec);
+  function hd(){
+    var on=!!(document.fullscreenElement||document.webkitFullscreenElement);
+    var h=window._yayinHls;
+    if(h&&h.levels&&h.levels.length>1){
+      try{h.autoLevelCapping=-1;h.nextLevel=on?h.levels.length-1:-1;}catch(e){}
+    }
+  }
+  document.addEventListener('fullscreenchange',hd);
+  document.addEventListener('webkitfullscreenchange',hd);
+  /* ilk yayın: TRT Haber — sessiz otomatik başlat */
+  if(!ilkKuruldu){ilkKuruldu=true;kur(KANALLAR[0]);}
+})();
+/* ---- RADYO: 10 canlı kanal ---- */
+(function(){
+  var audio=document.getElementById('radyoKontrol');
+  var kanallarEl=document.getElementById('radyoKanallar');
+  var msg=document.getElementById('radyoMsg');
+  var ad=document.getElementById('radyoAd');
+  if(!audio||!kanallarEl)return;
+  var KANALLAR=[
+    ['Radyo Fenomen','https://live.radyofenomen.com/fenomen/128/icecast.audio'],
+    ['Fenomen Clubbin','https://live.radyofenomen.com/fenomenclubbin/128/icecast.audio'],
+    ['Alem FM','https://turkmedya.radyotvonline.net/alemfmaac'],
+    ['Slow Türk','https://radyo.duhnet.tv/ak_dtvh_slowturk'],
+    ['TRT FM','https://trt.radyotvonline.net/trtfm'],
+    ['Metro FM','https://playerservices.streamtheworld.com/api/livestream-redirect/METRO_FM_SC?/'],
+    ['JoyTürk','https://playerservices.streamtheworld.com/api/livestream-redirect/JOY_TURK_SC?/'],
+    ['Süper FM','https://stream.super.fm:8443/superfm.mp3'],
+    ['Habertürk Radyo','https://haberturkradyo.radyotvonline.net/haberturkradyo'],
+    ['Erkam Radyo','https://api-tv5.yayin.com.tr:8002/mp3']
+  ];
+  KANALLAR.forEach(function(k){
+    var b=document.createElement('button');b.type='button';
+    b.className='yayin-kan';
+    b.textContent=k[0];b.setAttribute('data-url',k[1]);
+    b.addEventListener('click',function(){
+      var acik=b.classList.contains('on');
+      kanallarEl.querySelectorAll('.yayin-kan').forEach(function(x){x.classList.remove('on');});
+      if(acik){
+        audio.pause();audio.removeAttribute('src');audio.load();
+        msg.textContent='Durduruldu.';ad.textContent='— DURDU —';return;
+      }
+      b.classList.add('on');
+      audio.src=k[1];
+      msg.textContent=k[0]+' bağlanıyor...';ad.textContent=k[0];
+      audio.play().catch(function(){msg.textContent='Bu kanal açılamadı — başka bir kanal dene.';});
+    });
+    kanallarEl.appendChild(b);
+  });
+  audio.addEventListener('playing',function(){
+    var on=kanallarEl.querySelector('.yayin-kan.on');
+    var isim=on?on.textContent:'';
+    msg.textContent=isim?isim+' çalıyor...':'Çalıyor...';
+  });
+  audio.addEventListener('pause',function(){if(!audio.src)return;msg.textContent='Duraklatıldı.';});
+  audio.addEventListener('error',function(){msg.textContent='Yayın hatası — başka bir kanal dene.';});
+})();
+
+/* ---- OPERASYON TAKVİMİ: 15 Eylül geri sayımı ---- */
+(function(){
+  var g=document.getElementById('opsGun'),h=document.getElementById('opsSaat'),
+      d=document.getElementById('opsDak'),s=document.getElementById('opsSan'),
+      durum=document.getElementById('opsDurum');
+  if(!g||!durum)return;
+  var hedef=new Date('2026-09-15T16:45:00+03:00').getTime();
+  function iki(n){return (n<10?'0':'')+n;}
+  function tik(){
+    var fark=hedef-Date.now();
+    if(fark<=0){
+      g.textContent='0';h.textContent='00';d.textContent='00';s.textContent='00';
+      durum.textContent='★ OPERASYON BAŞLADI — NetHunter kurulum penceresi açık';
+      return;
+    }
+    var gun=Math.floor(fark/86400000);
+    fark-=gun*86400000;
+    var saat=Math.floor(fark/3600000);fark-=saat*3600000;
+    var dak=Math.floor(fark/60000);fark-=dak*60000;
+    var san=Math.floor(fark/1000);
+    g.textContent=gun;h.textContent=iki(saat);d.textContent=iki(dak);s.textContent=iki(san);
+    if(gun>=1){durum.textContent='Geri sayım: NET-HUNTER operasyonuna '+gun+' gün kaldı';}
+    else{durum.textContent='Operasyon bugün — kilit açma penceresi yaklaşıyor!';}
+  }
+  tik();setInterval(tik,1000);
+})();
+
+
+/* ---- GÖRSEL ŞÖLEN: yağmur + fare izi + tıklama + bip ---- */
+(function(){
+  var dug=document.getElementById('fxDugme');
+  var cv=document.getElementById('fxCanvas');
+  if(!dug||!cv||!cv.getContext)return;
+  var azalt=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var st=getComputedStyle(document.documentElement);
+  var r1=st.getPropertyValue('--fx1').trim()||'#00ff9c';
+  var r2=st.getPropertyValue('--fx2').trim()||r1;
+  var r3=st.getPropertyValue('--fx3').trim()||r1;
+  var acikZemin=st.getPropertyValue('--fx-acik').trim()==='1';
+  var ctx=cv.getContext('2d');
+  var W,H;
+  function boyut(){W=cv.width=Math.floor(window.innerWidth/2)*2;H=cv.height=Math.floor(window.innerHeight/2)*2;}
+  boyut();window.addEventListener('resize',boyut);
+  var kapali=(localStorage.getItem('fxKapali')==='1');
+  function etiket(){dug.textContent=kapali?'✦ FX: KAPALI':'✦ FX: AÇIK';dug.classList.toggle('kapali',kapali);}
+  etiket();
+  function ac(){kapali=false;localStorage.setItem('fxKapali','0');etiket();if(azalt)return;sessizden();ses=true;}
+  function kapat(){kapali=true;localStorage.setItem('fxKapali','1');etiket();ses=false;ctx.clearRect(0,0,W,H);}
+  dug.addEventListener('click',function(){kapali?ac():kapat();});
+
+  /* ses (WebAudio) */
+  var actx=null,ses=false;
+  function sessizden(){
+    if(!actx){try{actx=new (window.AudioContext||window.webkitAudioContext)();}catch(e){return;}}
+    if(actx.state==='suspended')actx.resume();
+  }
+  function bip(frek,sure,vol,zigzag){
+    if(!ses||!actx)return;
+    var o=actx.createOscillator(),g=actx.createGain();
+    o.type=zigzag?'square':'sine';
+    o.frequency.value=frek;
+    g.gain.setValueAtTime(vol,actx.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.0001,actx.currentTime+sure);
+    o.connect(g);g.connect(actx.destination);
+    o.start();o.stop(actx.currentTime+sure);
+  }
+  document.addEventListener('click',function(e){
+    if(!ses)return;
+    var t=e.target;
+    if(t.closest&&t.closest('.yayin-kan,.yayin-dgm,.secenek,.yayin-kan,.k-dgm,#sonrakiSiir,.btn')){
+      bip(660+Math.random()*220,0.05,0.025,true);
+    }
+    if(t.closest&&t.closest('.tv-kan,.station')){bip(880,0.06,0.02,false);}
+  });
+
+  /* ---- yağmur ---- */
+  var harfler='01アイウエオカキクケコサシスセソタチツテトナニヌネノ#$%&';
+  var kolonSay=0,damlalar=[];
+  function kur(){
+    kolonSay=Math.max(14,Math.floor(W/16));
+    damlalar=[];
+    for(var i=0;i<kolonSay;i++){
+      damlalar.push({x:i*16+8,y:Math.random()*-H,hiz:6+Math.random()*10});
+    }
+  }
+  kur();window.addEventListener('resize',kur);
+  var fare={x:-100,y:-100,ox:-100,oy:-100};
+  if(!azalt){
+    window.addEventListener('pointermove',function(e){fare.x=e.clientX;fare.y=e.clientY;});
+  }
+  var patlamalar=[];
+  if(!azalt){
+    window.addEventListener('pointerdown',function(e){
+      for(var i=0;i<14;i++){
+        var a=Math.random()*Math.PI*2,v=2+Math.random()*5;
+        patlamalar.push({x:e.clientX,y:e.clientY,vx:Math.cos(a)*v,vy:Math.sin(a)*v-1.2,omur:28+Math.random()*22,
+          renk:[r1,r2,r3][Math.floor(Math.random()*3)]});
+      }
+    });
+  }
+  function hexRgba(hex,a){
+    var h=hex.replace('#','');
+    if(h.length===3)h=h[0]+h[0]+h[1]+h[1]+h[2]+h[2];
+    var n=parseInt(h,16);
+    return 'rgba('+((n>>16)&255)+','+((n>>8)&255)+','+(n&255)+','+a+')';
+  }
+  var traille=[];
+  function kare(){
+    requestAnimationFrame(kare);
+    if(kapali){ctx.clearRect(0,0,W,H);return;}
+    /* eskiyi soldur */
+    ctx.globalCompositeOperation='destination-out';
+    ctx.fillStyle='rgba(0,0,0,0.07)';
+    ctx.fillRect(0,0,W,H);
+    ctx.globalCompositeOperation='source-over';
+    var anaAlpha=acikZemin?0.30:0.5;
+    ctx.font='14px monospace';
+    for(var i=0;i<damlalar.length;i++){
+      var d=damlalar[i];
+      d.y+=d.hiz;
+      if(d.y>H+30){d.y=Math.random()*-H;d.hiz=6+Math.random()*10;}
+      var par=i%7===0?r2:r1;
+      var og=Math.random();
+      if(og>0.92)par=r3;
+      ctx.fillStyle=hexRgba(par,anaAlpha);
+      ctx.fillText(harfler[Math.floor(Math.random()*harfler.length)],d.x,d.y);
+      ctx.fillStyle=hexRgba(r1,anaAlpha*0.45);
+      ctx.fillText(harfler[Math.floor(Math.random()*harfler.length)],d.x,d.y-14);
+    }
+    /* fare izi */
+    traille.push({x:fare.x,y:fare.y,omur:20});
+    if(traille.length>40)traille.shift();
+    for(var j=0;j<traille.length;j++){
+      var t2=traille[j];
+      t2.omur--;
+      if(t2.omur<=0)continue;
+      ctx.fillStyle=hexRgba(r2,(t2.omur/20)*0.5*(acikZemin?0.35:0.6));
+      ctx.beginPath();ctx.arc(t2.x,t2.y,(t2.omur/20)*5,0,Math.PI*2);ctx.fill();
+    }
+    /* patlamalar */
+    for(var k=patlamalar.length-1;k>=0;k--){
+      var p=patlamalar[k];
+      p.x+=p.vx;p.y+=p.vy;p.vy+=0.16;p.omur--;
+      if(p.omur<=0){patlamalar.splice(k,1);continue;}
+      ctx.fillStyle=hexRgba(p.renk,(p.omur/50)*0.9);
+      ctx.beginPath();ctx.arc(p.x,p.y,2.4,0,Math.PI*2);ctx.fill();
+    }
+    if(document.hidden){ctx.clearRect(0,0,W,H);}
+  }
+  if(azalt){
+    /* azaltilmis hareket: tekrar yok; duymayan sessiz; yağmur statik tek kare ciz */
+    ctx.font='14px monospace';
+    for(var i2=0;i2<kolonSay;i2++){
+      ctx.fillStyle=hexRgba(r1,acikZemin?0.18:0.3);
+      ctx.fillText(harfler[i2%harfler.length],i2*16+8,(i2*37)%H);
+    }
+  }else{
+    requestAnimationFrame(kare);
+  }
+})();
+
+</script>
+</body>
+</html>
