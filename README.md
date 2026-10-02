@@ -3,6 +3,8 @@
 **Beyaz şapka (white hat) siber savunma paneli — matrix yağmurlu, tek dosya.**
 11 bölüm, 21 kart ve **4 ayrı renk sürümü**: White Hat · Black‑Ops · Holo · Synthwave.
 
+🌐 **Canlı site:** <https://kenankuzucu.github.io/ustad-kenan-siber-operasyon-merkezi/>
+
 ![ÜSTAD KENAN // SİBER OPERASYON MERKEZİ](ekranlar/00-kapak.png)
 
 ---
